@@ -1,5 +1,6 @@
 package at.meowww.AsukaMeow.util;
 
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,10 +29,16 @@ public abstract class Handler {
         this.enable = val;
     }
 
-    public void load (MemorySection config) {}
+    public void load (MemorySection config) {
+        this.config = config;
+        this.enable = config.getBoolean("Enable");
+    }
 
     public MemorySection save () {
-        return null;
+        MemorySection config = new MemoryConfiguration();
+        config.set("Enable", this.enable);
+
+        return config;
     }
 
     public void toggleRegister (JavaPlugin plugin) {
