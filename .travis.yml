@@ -1,0 +1,19 @@
+language: java
+
+cache:
+  directories:
+  - "$HOME/.m2"
+
+install:
+- mvn clean
+- mvn package
+
+deploy:
+  provider: releases
+  api_key:
+    secure: NxFPKqwnxz8dispqoJ4rpaQWW6WaliZlwO5C7M0Y9TBazrV76g7clxlNnDg9LPmUeCSwerfUqpSeh/2uuqv3E1p4oqguWldCTdh2+rkrrRDR7c7hLMstS3PcGHAwlO9t03AH+1CoweW+ngoag6xh5JIVgaf3PEjYjUIZ0TlISXnheX1WegYKEeDSAQPAMG3FXsV5qCut43I0q0Vg9YELxDDATjEm5Rcw2bq3/hBCOjcqePhOCe/YTRQ7nctbiJY+MeVMW4oNE9f1KVosD9AUYQyHmg6flRdhrtE7pRm92CKWQufvz5jwanUvTwnScZ/Wiwx2sohAYyCMH9jEFjua2LKA2zEyV+2MjdXJdznLIoqekrn6sb0pG9FbD/bkanHqddRPpZJ6UtZLnfKXl7T/ibyYs//y3hTuYwIBUi0StdipXSCN/B3N+OwGSIV2QK2YNsf7TMe5DaLVJ6hP5kuxRtx+wOsyQzEIkvRMtcrYpY4eRRXmjsvj/TuIFtdSdsIZxIrk1JGILKnSroWoW9YqiatPH089nDz8x+5T2I49bZAB95WdZuOrk89ipKNEaanhXeOkgDQt9W9PyvEKlhQXqIQULJn+6xrelhPSUYuDqdcjgwyTeuGr5kVy9KjThm7MkLnsoCYD5KSVqnw0G8KGCJtg17kXo5SABrZQszs7XRQ=
+  file: "./out/*.jar"
+  skip_cleanup: true
+  on:
+    repo: AsukaMeow/AsukaMeow
+    tags: true

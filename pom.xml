@@ -13,7 +13,7 @@
         <author>Clooooode</author>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <output_dir>${build.outputDirectory}</output_dir>
+        <output_dir>${project.build.outputDirectory}</output_dir>
     </properties>
 
 
@@ -39,7 +39,7 @@
     </repositories>
 
     <build>
-        <finalName>${groupId}-${version}</finalName>
+        <finalName>${project.groupId}-${project.version}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <outputDirectory>out/</outputDirectory>
         <resources>
@@ -82,11 +82,11 @@
                     <replacements>
                         <replacement>
                             <token>{NAME}</token>
-                            <value>${groupId}</value>
+                            <value>${project.groupId}</value>
                         </replacement>
                         <replacement>
                             <token>{VERSION}</token>
-                            <value>${version}</value>
+                            <value>${project.version}</value>
                         </replacement>
                         <replacement>
                             <token>{AUTHOR}</token>
@@ -94,7 +94,7 @@
                         </replacement>
                         <replacement>
                             <token>{MAIN}</token>
-                            <value>${artifactId}.${groupId}</value>
+                            <value>${project.artifactId}.${project.groupId}</value>
                         </replacement>
                     </replacements>
                 </configuration>
