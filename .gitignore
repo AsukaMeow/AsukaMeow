@@ -1,6 +1,7 @@
 .idea/*
 out/*
 target/*
+mongo-data/*
 
 *.iml
 

@@ -1,0 +1,68 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>with-mgo</id>
+
+    <formats>
+        <format>jar</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <useProjectArtifact>true</useProjectArtifact>
+            <unpack>true</unpack>
+            <scope>runtime</scope>
+            <excludes>
+                <exclude>com.google.code.findbugs:jsr305</exclude>
+                <exclude>com.google.code.gson:gson</exclude>
+                <exclude>com.google.guava:guava</exclude>
+                <exclude>com.googlecode.json-simple:json-simple</exclude>
+                <exclude>junit:junit</exclude>
+                <exclude>net.java.dev.jna:jna</exclude>
+                <exclude>net.md-5:bungeecord-chat</exclude>
+                <exclude>net.milkbowl.vault:VaultAPI</exclude>
+                <exclude>org.bukkit:bukkit</exclude>
+                <exclude>org.hamcrest:hamcrest-core</exclude>
+                <exclude>org.spigotmc:spigot-api</exclude>
+                <exclude>org.yaml:snakeyaml</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/out/</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>/**/*.class</include>
+                <include>*.xml</include>
+                <include>*.properties</include>
+                <include>*.yaml</include>
+                <include>*.yml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+                <include>*.properties</include>
+                <include>*.yaml</include>
+                <include>*.yml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources/lang</directory>
+            <outputDirectory>./lang/</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+                <include>*.properties</include>
+                <include>*.yaml</include>
+                <include>*.yml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</assembly>
