@@ -1,7 +1,9 @@
 .idea/*
 out/*
-target/*
+*/target
+target/
 mongo-data/*
 
+dist/dependency-reduced-pom.xml
 *.iml
 

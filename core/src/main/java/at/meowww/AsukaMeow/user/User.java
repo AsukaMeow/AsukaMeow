@@ -2,7 +2,6 @@ package at.meowww.AsukaMeow.user;
 
 import at.meowww.AsukaMeow.AsukaMeow;
 import at.meowww.AsukaMeow.util.Utils;
-import com.mongodb.BasicDBObject;
 import org.bson.Document;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,7 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class User extends BasicDBObject {
+public class User {
 
     private UUID uuid;
     private String mojangName;
@@ -141,5 +140,4 @@ public class User extends BasicDBObject {
     public Location getLastLogoutLoc () {
         return lastLogoutLoc;
     }
-
 }
