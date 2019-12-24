@@ -3,6 +3,8 @@ package at.meowww.AsukaMeow;
 import at.meowww.AsukaMeow.config.ConfigManager;
 import at.meowww.AsukaMeow.database.DatabaseManager;
 import at.meowww.AsukaMeow.user.UserManager;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +25,7 @@ public class AsukaMeow extends JavaPlugin {
     private DatabaseManager databaseManager;
 
     private UserManager userManager;
+    private World defaultWorld;
 
     @Override
     public void onEnable () {
@@ -42,6 +45,8 @@ public class AsukaMeow extends JavaPlugin {
 
         userManager.registerListener();
         logger.info("AsukaMeow UserManager loaded!");
+
+        defaultWorld = Bukkit.getWorlds().get(0);
     }
 
     @Override
@@ -49,4 +54,7 @@ public class AsukaMeow extends JavaPlugin {
         configManager.save(databaseManager);
     }
 
+    public World getDefaultWorld () {
+        return this.defaultWorld;
+    }
 }

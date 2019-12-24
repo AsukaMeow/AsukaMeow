@@ -24,11 +24,12 @@ public class UserListener implements Listener {
         if (onlineUser == null) {
             onlineUser = User.newUser(player);
         }
-        onlineUser.online();
+        onlineUser.online(player);
         manager.onlineUser.put(uuid, onlineUser);
         manager.updateUser(onlineUser);
 
         player.setDisplayName(onlineUser.getDisplayName());
+        player.setPlayerListName(onlineUser.getDisplayName());
     }
 
     @EventHandler
