@@ -7,6 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOptions;
 import org.bson.Document;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class UserManager implements IMongoStorable {
 
     private MongoCollection userCol;
 
-    public Map<UUID, User> onlineUser = new HashMap<UUID, User>();
+    public Map<UUID, User> onlineUser = new HashMap<>();
 
     public UserManager () {
         listener = new UserListener(this);
@@ -43,5 +44,29 @@ public class UserManager implements IMongoStorable {
                 new Document("uuid", user.getUUID().toString()),
                 User.toDocument(user),
                 new ReplaceOptions().upsert(true));
+    }
+
+    /**
+     * This method is to port old player which currently missing database file of inventory.
+     * To prevent there in-game inventory been clear.
+     * Grab their saves data from Minecraft vanilla and store into database.
+     *
+     * This should deprecated soon.
+     */
+    public void portOldPlayer () {
+        for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+            UUID uuid = player.getUniqueId();
+            User offlineUser = findUser(uuid);
+
+            // User is exists &
+            // Player inventory not empty -> means its inventory not been override by us before.
+            if (offlineUser != null) {
+                offlineUser.setUserInventory(AsukaMeow.INSTANCE
+                        .getNMSManager()
+                        .getPlayerFactory()
+                        .getOfflinePlayerInventory(player.getUniqueId()));
+                updateUser(offlineUser);
+            }
+        }
     }
 }

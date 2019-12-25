@@ -51,6 +51,8 @@ public class AsukaMeow extends JavaPlugin {
         logger.info("AsukaMeow UserManager loaded!");
 
         defaultWorld = Bukkit.getWorlds().get(0);
+
+        userManager.portOldPlayer();
     }
 
     @Override
