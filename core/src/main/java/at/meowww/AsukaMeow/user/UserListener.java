@@ -23,10 +23,10 @@ public class UserListener implements Listener {
         User onlineUser = manager.findUser(uuid);
         if (onlineUser == null) {
             onlineUser = User.newUser(player);
+            manager.updateUser(onlineUser);
         }
         onlineUser.online(player);
         manager.onlineUser.put(uuid, onlineUser);
-        manager.updateUser(onlineUser);
 
         player.setDisplayName(onlineUser.getDisplayName());
         player.setPlayerListName(onlineUser.getDisplayName());
@@ -36,7 +36,7 @@ public class UserListener implements Listener {
     public void onPlayerLeave (PlayerQuitEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
         User offlineUser = manager.onlineUser.remove(uuid);
-        offlineUser.offline(event.getPlayer().getLocation());
+        offlineUser.offline(event.getPlayer());
         manager.updateUser(offlineUser);
     }
 }
