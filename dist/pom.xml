@@ -17,6 +17,11 @@
             <artifactId>AsukaMeow-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>at.meowww.AsukaMeow</groupId>
+            <artifactId>CraftBukkit_1_14_R1</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -38,6 +43,7 @@
                                 <includes>
                                     <include>org.mongodb:mongo-java-driver:*:*</include>
                                     <include>at.meowww.AsukaMeow:AsukaMeow*</include>
+                                    <include>at.meowww.AsukaMeow:CraftBukkit*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
