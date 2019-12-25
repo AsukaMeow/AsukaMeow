@@ -22,6 +22,7 @@ public class User {
     private Set<String> historyLoginIP;
 
     private Location lastLogoutLoc;
+    private UserInventory userInventory;
 
     public User(
             UUID uuid,
@@ -33,7 +34,8 @@ public class User {
             Date lastLogoutDatetime,
             int totalOnlineSecond,
             Set<String> historyLoginIP,
-            Location lastLogoutLoc
+            Location lastLogoutLoc,
+            UserInventory userInventory
     ) {
         this.uuid = uuid;
         this.mojangName = mojangName;
@@ -46,6 +48,7 @@ public class User {
         this.historyLoginIP = historyLoginIP;
 
         this.lastLogoutLoc = lastLogoutLoc;
+        this.userInventory = userInventory;
     }
 
     public static User newUser (Player player) {
@@ -60,7 +63,8 @@ public class User {
                 0,
                 new HashSet<>(),
 
-                player.getLocation()
+                player.getLocation(),
+                new UserInventory(player.getInventory())
         );
     }
 
@@ -75,7 +79,8 @@ public class User {
                 .append("total_online_second", user.totalOnlineSecond)
                 .append("history_login_ip", new ArrayList<>(user.historyLoginIP))
 
-                .append("last_logout_location", user.lastLogoutLoc.serialize());
+                .append("last_logout_location", user.lastLogoutLoc.serialize())
+                .append("user_inventory", user.userInventory.serialize());
     }
 
     public static User fromDocument (Document document) {
@@ -94,19 +99,22 @@ public class User {
                         "last_logout_location",
                         AsukaMeow.INSTANCE.getDefaultWorld().getSpawnLocation().serialize()
                         )
-                )
+                ),
+                UserInventory.deserialize(document.get("user_inventory", new HashMap<>()))
         );
     }
 
     public void online (Player player) {
         lastLoginDatetime = new Date();
         historyLoginIP.add(player.getAddress().getHostName());
+        userInventory.presetInventory(player);
     }
 
-    public void offline (Location loc) {
+    public void offline (Player player) {
         lastLogoutDatetime = new Date();
         totalOnlineSecond += Utils.getDatetimeDiffInt(lastLoginDatetime, lastLogoutDatetime, TimeUnit.SECONDS);
-        lastLogoutLoc = loc;
+        lastLogoutLoc = player.getLocation();
+        userInventory.postInventory(player);
     }
 
     public UUID getUUID () {
@@ -139,5 +147,9 @@ public class User {
 
     public Location getLastLogoutLoc () {
         return lastLogoutLoc;
+    }
+
+    public void setUserInventory (UserInventory userInventory) {
+        this.userInventory = userInventory;
     }
 }
