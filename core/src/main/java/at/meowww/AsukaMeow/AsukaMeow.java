@@ -25,7 +25,7 @@ public class AsukaMeow extends JavaPlugin {
     private ConfigManager configManager;
     private DatabaseManager databaseManager;
 
-    private NMSManager nmsMamager;
+    private NMSManager nmsManager;
     private UserManager userManager;
     private World defaultWorld;
 
@@ -38,7 +38,7 @@ public class AsukaMeow extends JavaPlugin {
         configManager = new ConfigManager(file, config);
         databaseManager = new DatabaseManager();
 
-        nmsMamager = new NMSManager();
+        nmsManager = new NMSManager();
         userManager = new UserManager();
 
         configManager.load(databaseManager);
@@ -65,6 +65,6 @@ public class AsukaMeow extends JavaPlugin {
     }
 
     public NMSManager getNMSManager () {
-        return this.nmsMamager;
+        return this.nmsManager;
     }
 }

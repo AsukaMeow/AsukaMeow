@@ -64,7 +64,7 @@ public class UserManager implements IMongoStorable {
                 offlineUser.setUserInventory(AsukaMeow.INSTANCE
                         .getNMSManager()
                         .getPlayerFactory()
-                        .getOfflinePlayerInventory(player.getUniqueId()));
+                        .getPlayerInventory(player.getUniqueId()));
                 updateUser(offlineUser);
             }
         }
