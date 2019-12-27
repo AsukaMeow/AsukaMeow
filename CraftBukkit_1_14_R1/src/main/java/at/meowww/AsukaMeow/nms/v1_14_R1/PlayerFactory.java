@@ -7,8 +7,6 @@ import net.minecraft.server.v1_14_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +15,6 @@ import java.util.UUID;
 public class PlayerFactory extends at.meowww.AsukaMeow.nms.PlayerFactory {
 
     @Override
-    @Nullable
     public Object getPlayerSaves(UUID uuid) {
         try {
             String worldFolderPath = Bukkit.getServer().getWorldContainer().getAbsolutePath();
@@ -33,7 +30,6 @@ public class PlayerFactory extends at.meowww.AsukaMeow.nms.PlayerFactory {
     }
 
     @Override
-    @NotNull
     public UserInventory getPlayerInventory(UUID uuid) {
         ItemStack[] armorStacks = new ItemStack[4];
         ItemStack[] storeStacks = new ItemStack[36];
