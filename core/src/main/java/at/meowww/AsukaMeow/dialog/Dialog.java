@@ -1,9 +1,7 @@
 package at.meowww.AsukaMeow.dialog;
 
 import at.meowww.AsukaMeow.dialog.page.Page;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.md_5.bungee.api.chat.BaseComponent;
 
 public class Dialog {
 
@@ -13,12 +11,11 @@ public class Dialog {
         this.pages = pages;
     }
 
-    public List<String> toList () {
-        ArrayList<String> contents = new ArrayList<>();
-        for (Page p : pages) {
-            contents.add(p.toComponent().toLegacyText());
-        }
-        return contents;
+    public BaseComponent[] toComponents () {
+        BaseComponent[] components = new BaseComponent[pages.length];
+        for (int i = 0; i < components.length; ++i)
+            components[i] = pages[i].toComponent();
+        return components;
     }
 
 }
