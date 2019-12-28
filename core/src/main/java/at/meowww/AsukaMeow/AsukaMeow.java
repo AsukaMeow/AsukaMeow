@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class AsukaMeow extends JavaPlugin {
 
-    public static final Logger logger = Logger.getLogger("");
+    public static Logger logger;
     public static String NMS_VERSION;
     public static AsukaMeow INSTANCE;
 
@@ -31,8 +31,10 @@ public class AsukaMeow extends JavaPlugin {
 
     @Override
     public void onEnable () {
-        NMS_VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(23);
         INSTANCE = this;
+        logger = INSTANCE.getLogger();
+        NMS_VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(23);
+
         file = new File(this.getDataFolder(), "config.yml");
         config = new YamlConfiguration();
         configManager = new ConfigManager(file, config);
@@ -42,13 +44,13 @@ public class AsukaMeow extends JavaPlugin {
         userManager = new UserManager();
 
         configManager.load(databaseManager);
-        logger.info("AsukaMeow config loaded!");
+        logger.info("ConfigManager loaded!");
 
         databaseManager.databaseInit(userManager);
-        logger.info("AsukaMeow database loaded!");
+        logger.info("DatabaseManager loaded!");
 
         userManager.registerListener();
-        logger.info("AsukaMeow UserManager loaded!");
+        logger.info("UserManager loaded!");
 
         defaultWorld = Bukkit.getWorlds().get(0);
 

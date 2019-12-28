@@ -12,7 +12,7 @@ public class NMSManager {
             this.itemFactory = initItemFactory();
             this.playerFactory = initPlayerFactory();
         } catch (Exception e) {
-            AsukaMeow.INSTANCE.getLogger().warning(
+            AsukaMeow.logger.warning(
                     e.getMessage() + " could not find a valid implementation for this version."
             );
         }
