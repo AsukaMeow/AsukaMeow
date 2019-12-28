@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @see <href a="https://www.spigotmc.org/threads/chat-click-event-callback-chatcomponent.238380/">Spigot Example</>
+ * @see <href a="https://gist.github.com/rodel77/b6966471d51d5176d0da9bd0120d0a4b">Gist: Spigot Chat Click Callback</href>
+ */
 public class DialogManager {
 
     private static final Map<UUID, Consumer<Player>> callbacks = new HashMap<>();
