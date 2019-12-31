@@ -39,4 +39,5 @@ public class UserListener implements Listener {
         offlineUser.offline(event.getPlayer());
         manager.updateUser(offlineUser);
     }
+
 }

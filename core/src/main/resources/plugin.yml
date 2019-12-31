@@ -2,3 +2,10 @@ name: ${name}
 version: ${version}
 author: ${author}
 main: ${main}
+commands:
+  asuka-dialog:
+    description: Controll the AsukaMeow's dialogs.
+    usage: |
+      /asuka-dialog reload
+      /asuka-dialog list
+      /asuka-dialog open [UUID]

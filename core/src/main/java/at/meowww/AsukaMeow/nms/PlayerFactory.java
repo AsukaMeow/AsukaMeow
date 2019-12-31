@@ -1,8 +1,6 @@
 package at.meowww.AsukaMeow.nms;
 
 import at.meowww.AsukaMeow.user.UserInventory;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -24,7 +22,6 @@ public abstract class PlayerFactory {
      * @param uuid
      * @return null if no such uuid saves exists.
      */
-    @Nullable
     public abstract Object getPlayerSaves (UUID uuid);
 
     /**
@@ -32,7 +29,6 @@ public abstract class PlayerFactory {
      * @param uuid
      * @return
      */
-    @NotNull
     public abstract UserInventory getPlayerInventory(UUID uuid);
 
 }
