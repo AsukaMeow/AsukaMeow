@@ -1,12 +1,12 @@
 package at.meowww.AsukaMeow;
 
-import at.meowww.AsukaMeow.system.SystemManager;
-import at.meowww.AsukaMeow.system.command.SystemCommandExecutor;
 import at.meowww.AsukaMeow.config.ConfigManager;
 import at.meowww.AsukaMeow.database.DatabaseManager;
 import at.meowww.AsukaMeow.dialog.DialogManager;
 import at.meowww.AsukaMeow.dialog.command.DialogCommandExecutor;
 import at.meowww.AsukaMeow.nms.NMSManager;
+import at.meowww.AsukaMeow.system.SystemManager;
+import at.meowww.AsukaMeow.system.command.SystemCommandExecutor;
 import at.meowww.AsukaMeow.user.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

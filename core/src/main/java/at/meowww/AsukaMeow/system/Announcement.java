@@ -31,8 +31,28 @@ public class Announcement {
         }
     }
 
+    public UUID getDialogUUID () {
+        return dialogUUID;
+    }
+
     public void setDialogUUID(UUID uuid) {
         dialogUUID = uuid;
+    }
+
+    public Date getStartDate () {
+        return startDate;
+    }
+
+    public void setStartDate(Date date) {
+        startDate = date;
+    }
+
+    public Date getEndDate () {
+        return endDate;
+    }
+
+    public void setEndDate(Date date) {
+        endDate = date;
     }
 
     public void load (MongoCollection systemCol) {
