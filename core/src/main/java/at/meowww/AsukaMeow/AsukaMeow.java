@@ -3,6 +3,7 @@ package at.meowww.AsukaMeow;
 import at.meowww.AsukaMeow.config.ConfigManager;
 import at.meowww.AsukaMeow.database.DatabaseManager;
 import at.meowww.AsukaMeow.dialog.DialogManager;
+import at.meowww.AsukaMeow.dialog.command.DialogCommandExecutor;
 import at.meowww.AsukaMeow.nms.NMSManager;
 import at.meowww.AsukaMeow.user.UserManager;
 import org.bukkit.Bukkit;
@@ -35,6 +36,8 @@ public class AsukaMeow extends JavaPlugin {
     public void onEnable () {
         NMS_VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(23);
         INSTANCE = this;
+
+        // Declarations
         file = new File(this.getDataFolder(), "config.yml");
         config = new YamlConfiguration();
         configManager = new ConfigManager(file, config);
@@ -44,21 +47,32 @@ public class AsukaMeow extends JavaPlugin {
         dialogManager = new DialogManager();
         userManager = new UserManager();
 
+        // Infrastructure Load or Init
         configManager.load(databaseManager);
         logger.info("AsukaMeow config loaded!");
 
-        databaseManager.databaseInit(userManager);
+        databaseManager.databaseInit(userManager, dialogManager);
         logger.info("AsukaMeow database loaded!");
+
+        // Register Listener
+        userManager.registerListener();
+        logger.info("AsukaMeow UserManager loaded!");
 
         dialogManager.registerListener();
         logger.info("AsukaMeow DialogManager loaded!");
 
-        userManager.registerListener();
-        logger.info("AsukaMeow UserManager loaded!");
-
+        // Load
         defaultWorld = Bukkit.getWorlds().get(0);
 
         userManager.portOldPlayer();
+        dialogManager.loadDialogs();
+
+
+        // CommandExecutors
+        DialogCommandExecutor dialogExecutor = new DialogCommandExecutor(this, dialogManager);
+
+        // Executor init
+        dialogExecutor.setExecutor();
     }
 
     @Override

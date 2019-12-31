@@ -5,10 +5,7 @@ import at.meowww.AsukaMeow.dialog.DialogManager;
 import at.meowww.AsukaMeow.util.Utils;
 import com.google.common.base.Strings;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Consumer;
 
@@ -70,8 +67,18 @@ public class LineBuilder {
         return this;
     }
 
+    public LineBuilder click(ClickEvent event) {
+        current.setClickEvent(event);
+        return this;
+    }
+
     public LineBuilder hover(BaseComponent ... components) {
         current.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, components));
+        return this;
+    }
+
+    public LineBuilder hover(HoverEvent event) {
+        current.setHoverEvent(event);
         return this;
     }
 
