@@ -57,6 +57,10 @@ public class DialogManager implements IMongoStorable {
         return dialogMap;
     }
 
+    public Dialog getDialog(UUID uuid) {
+        return dialogMap.get(uuid);
+    }
+
     public void loadDialog (UUID uuid) {
         Object obj = dialogCol.find(new Document("uuid", uuid.toString())).first();
         Dialog d = Dialog.fromDocument((Document) obj);
