@@ -1,5 +1,6 @@
 package at.meowww.AsukaMeow.user;
 
+import at.meowww.AsukaMeow.AsukaMeow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +31,11 @@ public class UserListener implements Listener {
 
         player.setDisplayName(onlineUser.getDisplayName());
         player.setPlayerListName(onlineUser.getDisplayName());
+
+        AsukaMeow.INSTANCE
+                .getSystemManager()
+                .getAnnouncement()
+                .sendAnnouncement(onlineUser);
     }
 
     @EventHandler

@@ -5,6 +5,8 @@ import at.meowww.AsukaMeow.database.DatabaseManager;
 import at.meowww.AsukaMeow.dialog.DialogManager;
 import at.meowww.AsukaMeow.dialog.command.DialogCommandExecutor;
 import at.meowww.AsukaMeow.nms.NMSManager;
+import at.meowww.AsukaMeow.system.SystemManager;
+import at.meowww.AsukaMeow.system.command.SystemCommandExecutor;
 import at.meowww.AsukaMeow.user.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -30,7 +32,11 @@ public class AsukaMeow extends JavaPlugin {
     private NMSManager nmsManager;
     private UserManager userManager;
     private DialogManager dialogManager;
+    private SystemManager systemManager;
     private World defaultWorld;
+
+    DialogCommandExecutor dialogCommandExecutor;
+    SystemCommandExecutor systemCommandExecutor;
 
     @Override
     public void onEnable () {
@@ -47,19 +53,14 @@ public class AsukaMeow extends JavaPlugin {
         dialogManager = new DialogManager();
         userManager = new UserManager();
 
+        systemManager = new SystemManager();
+
         // Infrastructure Load or Init
         configManager.load(databaseManager);
         logger.info("ConfigManager loaded!");
 
-        databaseManager.databaseInit(userManager, dialogManager);
+        databaseManager.databaseInit(userManager, dialogManager, systemManager);
         logger.info("DatabaseManager loaded!");
-
-        // Register Listener
-        userManager.registerListener();
-        logger.info("UserManager loaded!");
-
-        dialogManager.registerListener();
-        logger.info("AsukaMeow DialogManager loaded!");
 
         // Load
         defaultWorld = Bukkit.getWorlds().get(0);
@@ -67,16 +68,26 @@ public class AsukaMeow extends JavaPlugin {
         userManager.portOldPlayer();
         dialogManager.loadDialogs();
 
+        systemManager.load();
 
         // CommandExecutors
-        DialogCommandExecutor dialogExecutor = new DialogCommandExecutor(this, dialogManager);
-
+        dialogCommandExecutor = new DialogCommandExecutor(this, dialogManager);
+        systemCommandExecutor = new SystemCommandExecutor(this, systemManager);
         // Executor init
-        dialogExecutor.setExecutor();
+        dialogCommandExecutor.setExecutor();
+        systemCommandExecutor.setExecutor();
+
+        // Register Listener
+        userManager.registerListener();
+        logger.info("UserManager loaded!");
+
+        dialogManager.registerListener();
+        logger.info("AsukaMeow DialogManager loaded!");
     }
 
     @Override
     public void onDisable () {
+        systemManager.save();
         configManager.save(databaseManager);
     }
 
@@ -86,5 +97,13 @@ public class AsukaMeow extends JavaPlugin {
 
     public NMSManager getNMSManager () {
         return this.nmsManager;
+    }
+
+    public DialogManager getDialogManager () {
+        return this.dialogManager;
+    }
+
+    public SystemManager getSystemManager () {
+        return this.systemManager;
     }
 }

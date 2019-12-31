@@ -1,6 +1,8 @@
 package at.meowww.AsukaMeow.util;
 
 import java.lang.Character.UnicodeBlock;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -8,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class Utils {
 
     private static final HashMap<UnicodeBlock, Double> CHAR_SIZE_MAP = new HashMap<>();
+    private static final DateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH");
 
     static {
         CHAR_SIZE_MAP.put(UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS, 1.0D);
@@ -42,4 +45,17 @@ public class Utils {
     private static double getSize (UnicodeBlock block) {
         return CHAR_SIZE_MAP.containsKey(block) ? CHAR_SIZE_MAP.get(block) : 1.0D;
     }
+
+    public static Date stringToDate (String string) {
+        try {
+            return dt.parse(string);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String dateToString (Date date) {
+        return dt.format(date);
+    }
+
 }

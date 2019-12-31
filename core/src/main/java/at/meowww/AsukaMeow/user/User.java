@@ -20,6 +20,7 @@ public class User {
     private Date lastLogoutDatetime;
     private int totalOnlineSecond; // 10 years = 315,569,260 seconds
     private Set<String> historyLoginIP;
+    private Date announceReadDate;
 
     private Location lastLogoutLoc;
     private UserInventory userInventory;
@@ -34,6 +35,7 @@ public class User {
             Date lastLogoutDatetime,
             int totalOnlineSecond,
             Set<String> historyLoginIP,
+            Date announceReadDate,
             Location lastLogoutLoc,
             UserInventory userInventory
     ) {
@@ -46,6 +48,7 @@ public class User {
         this.lastLogoutDatetime = lastLogoutDatetime;
         this.totalOnlineSecond = totalOnlineSecond;
         this.historyLoginIP = historyLoginIP;
+        this.announceReadDate = announceReadDate;
 
         this.lastLogoutLoc = lastLogoutLoc;
         this.userInventory = userInventory;
@@ -62,6 +65,7 @@ public class User {
                 new Date(),
                 0,
                 new HashSet<>(),
+                new Date(),
 
                 player.getLocation(),
                 new UserInventory(player.getInventory())
@@ -78,6 +82,7 @@ public class User {
                 .append("last_logout_datetime", user.lastLogoutDatetime)
                 .append("total_online_second", user.totalOnlineSecond)
                 .append("history_login_ip", new ArrayList<>(user.historyLoginIP))
+                .append("announce_read_date", user.announceReadDate)
 
                 .append("last_logout_location", user.lastLogoutLoc.serialize())
                 .append("user_inventory", user.userInventory.serialize());
@@ -89,11 +94,12 @@ public class User {
                 document.get("mojang_name", ""),
                 document.get("display_name", ""),
                 document.get("hashed_password", ""),
-                document.get("register_datetime", new Date()),
-                document.get("last_login_datetime", new Date()),
-                document.get("last_logout_datetime", new Date()),
+                document.get("register_datetime", new Date(0)),
+                document.get("last_login_datetime", new Date(0)),
+                document.get("last_logout_datetime", new Date(0)),
                 document.getInteger("total_online_second", 0),
                 new HashSet<>(document.get("history_login_ip", new ArrayList<>())),
+                document.get("announce_read_date", new Date(0)),
 
                 Location.deserialize(document.get(
                         "last_logout_location",
@@ -147,6 +153,14 @@ public class User {
 
     public Location getLastLogoutLoc () {
         return lastLogoutLoc;
+    }
+
+    public Date getAnnounceReadDate () {
+        return announceReadDate;
+    }
+
+    public void updateAnnounceReadDate () {
+        this.announceReadDate = new Date();
     }
 
     public void setUserInventory (UserInventory userInventory) {

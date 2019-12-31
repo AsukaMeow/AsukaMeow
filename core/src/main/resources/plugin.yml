@@ -9,3 +9,11 @@ commands:
       /asuka-dialog reload
       /asuka-dialog list
       /asuka-dialog open [UUID]
+  asuka-system:
+    description: Controll the AsukaMeow's systems.
+    usage: |
+      /asuka-system reload
+      /asuka-system save
+      /asuka-system announcement info
+      /asuka-system announcement set-dialog [UUID]
+      /asuka-system announcement set-date [start_date] [end_date]
