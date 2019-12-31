@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <revision>0.0.2-SNAPSHOT</revision>
+        <revision>0.0.3-SNAPSHOT</revision>
         <name>AsukaMeow</name>
         <author>Clooooode</author>
         <main>${project.groupId}.${name}</main>
