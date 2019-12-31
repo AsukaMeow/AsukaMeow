@@ -12,4 +12,6 @@ commands:
   asuka-system:
     description: Controll the AsukaMeow's systems.
     usage: |
+      /asuka-system reload
+      /asuka-system save
       /asuka-system announcement set-dialog [UUID]

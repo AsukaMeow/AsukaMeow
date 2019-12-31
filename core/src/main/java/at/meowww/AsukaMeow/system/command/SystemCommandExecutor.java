@@ -1,7 +1,7 @@
-package at.meowww.AsukaMeow.System.command;
+package at.meowww.AsukaMeow.system.command;
 
 import at.meowww.AsukaMeow.AsukaMeow;
-import at.meowww.AsukaMeow.System.SystemManager;
+import at.meowww.AsukaMeow.system.SystemManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,11 +36,16 @@ public class SystemCommandExecutor implements CommandExecutor, TabCompleter {
         if (!commandSender.isOp())
             return false;
 
-        if (args[1].equalsIgnoreCase("announcement")) {
+        if (args[0].equalsIgnoreCase("reload")) {
+            return ReloadCommand.onCommand(this, commandSender, command, s, args);
+        } else if (args[0].equalsIgnoreCase("save")) {
+            return SaveCommand.onCommand(this, commandSender, command, s, args);
+        } else if (args[0].equalsIgnoreCase("announcement")) {
             return AnnouncementCommand.onCommand(this, commandSender, command, s, args);
+        } else {
+            return false;
         }
 
-        return true;
     }
 
     @Override
@@ -49,12 +54,18 @@ public class SystemCommandExecutor implements CommandExecutor, TabCompleter {
             return null;
 
         switch (args[0].toLowerCase()) {
+            case "reload":
+                return ReloadCommand.onTabComplete(
+                        this, commandSender, command, s, args);
+            case "save":
+                return SaveCommand.onTabComplete(
+                        this, commandSender, command, s, args);
             case "announcement":
                 return AnnouncementCommand.onTabComplete(
                         this, commandSender, command, s, args);
             default:
                 return Arrays.asList(new String[] {
-                        "announcement",
+                        "reload", "save", "announcement",
                 });
         }
     }

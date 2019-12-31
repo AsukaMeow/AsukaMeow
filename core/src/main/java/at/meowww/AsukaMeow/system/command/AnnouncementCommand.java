@@ -1,4 +1,4 @@
-package at.meowww.AsukaMeow.System.command;
+package at.meowww.AsukaMeow.system.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

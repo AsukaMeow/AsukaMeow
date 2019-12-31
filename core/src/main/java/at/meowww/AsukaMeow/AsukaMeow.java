@@ -1,7 +1,7 @@
 package at.meowww.AsukaMeow;
 
-import at.meowww.AsukaMeow.System.SystemManager;
-import at.meowww.AsukaMeow.System.command.SystemCommandExecutor;
+import at.meowww.AsukaMeow.system.SystemManager;
+import at.meowww.AsukaMeow.system.command.SystemCommandExecutor;
 import at.meowww.AsukaMeow.config.ConfigManager;
 import at.meowww.AsukaMeow.database.DatabaseManager;
 import at.meowww.AsukaMeow.dialog.DialogManager;

@@ -1,10 +1,8 @@
-package at.meowww.AsukaMeow.System;
+package at.meowww.AsukaMeow.system;
 
 import at.meowww.AsukaMeow.database.IMongoStorable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.ReplaceOptions;
-import org.bson.Document;
 
 public class SystemManager implements IMongoStorable {
 
@@ -18,17 +16,11 @@ public class SystemManager implements IMongoStorable {
     }
 
     public void load () {
-        Document announcementDoc = (Document) systemCol.find(
-                new Document("section", "announcement")).first();
-        announcement.load(
-                announcementDoc == null ? new Document() : announcementDoc);
+        announcement.load(systemCol);
     }
 
     public void save () {
-        systemCol.replaceOne(
-                new Document("section", "announcement"),
-                announcement.save(),
-                new ReplaceOptions().upsert(true));
+        announcement.save(systemCol);
     }
 
     public Announcement getAnnouncement () {
