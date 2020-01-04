@@ -1,5 +1,6 @@
 package at.meowww.AsukaMeow.system;
 
+import at.meowww.AsukaMeow.AsukaMeow;
 import at.meowww.AsukaMeow.database.IMongoStorable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -17,6 +18,7 @@ public class SystemManager implements IMongoStorable {
 
     public void load () {
         announcement.load(systemCol);
+        AsukaMeow.INSTANCE.getLogger().info("System Loaded");
     }
 
     public void save () {
