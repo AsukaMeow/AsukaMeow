@@ -24,6 +24,19 @@ public class UserInventory {
         this(playerInv.getArmorContents(), playerInv.getStorageContents(), playerInv.getExtraContents());
     }
 
+    public boolean allEmpty () {
+        for(ItemStack stack : armorStacks)
+            if (stack != null)
+                return false;
+        for(ItemStack stack : storeStacks)
+            if (stack != null)
+                return false;
+        for(ItemStack stack : extraStacks)
+            if (stack != null)
+                return false;
+        return true;
+    }
+
     public void presetInventory (Player player) {
         player.getInventory().setArmorContents(armorStacks);
         player.getInventory().setStorageContents(storeStacks);

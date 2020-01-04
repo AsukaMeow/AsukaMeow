@@ -26,6 +26,10 @@ public class DatabaseManager implements IConfigurable {
         }
     }
 
+    public void databaseShutdown () {
+        mgoCli.close();
+    }
+
     @Override
     public void writeDefaultConfigValues(ConfigurationSection parentSection) {
         dbSection = parentSection.createSection("Database");

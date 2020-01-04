@@ -88,6 +88,7 @@ public class AsukaMeow extends JavaPlugin {
     @Override
     public void onDisable () {
         systemManager.save();
+        databaseManager.databaseShutdown();
         configManager.save(databaseManager);
     }
 

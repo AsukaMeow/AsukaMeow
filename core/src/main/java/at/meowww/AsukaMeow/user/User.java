@@ -163,6 +163,10 @@ public class User {
         this.announceReadDate = new Date();
     }
 
+    public UserInventory getUserInventory () {
+        return this.userInventory;
+    }
+
     public void setUserInventory (UserInventory userInventory) {
         this.userInventory = userInventory;
     }

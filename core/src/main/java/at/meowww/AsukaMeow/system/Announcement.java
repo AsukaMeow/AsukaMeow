@@ -63,10 +63,11 @@ public class Announcement {
 
         Document contentDoc = document.get("content", new Document());
 
-        String uuidString = document.get("dialog_uuid", "");
+        String uuidString = contentDoc.get("dialog_uuid", "");
         dialogUUID = uuidString.split("-").length == 5 ? UUID.fromString(uuidString) : null;
         startDate = contentDoc.get("start_date", new Date());
         endDate = contentDoc.get("end_date", new Date(0));
+        AsukaMeow.INSTANCE.getLogger().info("System Announcement Loaded");
     }
 
     public void save (MongoCollection systemCol) {
