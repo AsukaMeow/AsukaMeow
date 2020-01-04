@@ -60,7 +60,7 @@ public class UserManager implements IMongoStorable {
 
             // User is exists &
             // Player inventory not empty -> means its inventory not been override by us before.
-            if (offlineUser != null) {
+            if (offlineUser != null && offlineUser.getUserInventory().allEmpty()) {
                 offlineUser.setUserInventory(AsukaMeow.INSTANCE
                         .getNMSManager()
                         .getPlayerFactory()

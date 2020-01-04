@@ -44,6 +44,10 @@ public class UserListener implements Listener {
         User offlineUser = manager.onlineUser.remove(uuid);
         offlineUser.offline(event.getPlayer());
         manager.updateUser(offlineUser);
+        AsukaMeow.INSTANCE.getLogger().info("Player ["
+                + offlineUser.getDisplayName()
+                + "] data saved."
+        );
     }
 
 }
