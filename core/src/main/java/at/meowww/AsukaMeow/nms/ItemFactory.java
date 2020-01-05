@@ -27,10 +27,8 @@ public abstract class ItemFactory {
      */
     public abstract ItemStack deserialize (String str);
 
-    public abstract AsukaItem getAsukaItem(ItemStack itemStack);
+    public abstract ItemStack toItemStack(AsukaItem asukaItem);
 
-    public abstract ItemStack setAsukaItem(AsukaItem asukaItem);
-
-    public abstract boolean isAsukaItem(ItemStack itemStack);
+    public abstract boolean hasFeature(ItemStack itemStack);
 
 }

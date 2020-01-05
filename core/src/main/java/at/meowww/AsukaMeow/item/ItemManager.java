@@ -79,7 +79,7 @@ public class ItemManager implements IMongoStorable {
                     .INSTANCE
                     .getNMSManager()
                     .getItemFactory()
-                    .setAsukaItem(itemStackMap.get(key))
+                    .toItemStack(itemStackMap.get(key))
             );
     }
 

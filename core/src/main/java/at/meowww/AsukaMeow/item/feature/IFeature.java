@@ -1,16 +1,16 @@
 package at.meowww.AsukaMeow.item.feature;
 
-import at.meowww.AsukaMeow.item.AsukaItem;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 
 public interface IFeature {
 
-    String getName();
+    <T extends Event> void trigger(ItemStack itemStack, T event);
 
-    <T extends Event> void trigger (AsukaItem item, T event);
+    <T extends Event> void updateLore (ItemStack item, T event);
 
-    <T extends Event> void updateLore (AsukaItem item, T event);
+    void updateLore (ItemStack item);
 
-    void updateLore (AsukaItem item);
+    ItemStack serialize(ItemStack itemStack);
 
 }

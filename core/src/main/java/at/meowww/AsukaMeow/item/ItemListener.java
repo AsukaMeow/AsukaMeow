@@ -1,8 +1,8 @@
 package at.meowww.AsukaMeow.item;
 
 import at.meowww.AsukaMeow.AsukaMeow;
-import at.meowww.AsukaMeow.item.feature.Feature;
 import at.meowww.AsukaMeow.item.feature.FeatureBinding;
+import at.meowww.AsukaMeow.item.feature.IFeature;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,31 +27,20 @@ public class ItemListener implements Listener {
     }
 
     private void sendSingleToFeature(ItemStack itemStack, Event event) {
-        if (AsukaMeow.INSTANCE
-                .getNMSManager()
-                .getItemFactory()
-                .isAsukaItem(itemStack)
-        ) {
-            AsukaItem asukaItem = AsukaMeow.INSTANCE
-                    .getNMSManager()
-                    .getItemFactory()
-                    .getAsukaItem(itemStack);
-            asukaItem.getFeatures()
-                    .forEach((feature) -> feature.trigger(asukaItem, event));
-
+        if (AsukaMeow.INSTANCE.getNMSManager().getItemFactory().hasFeature(itemStack)) {
+            AsukaMeow.INSTANCE.getNMSManager()
+                    .getFeatureFactory().trigger(itemStack, event);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemInteract(PlayerInteractEvent event) {
-        ItemStack useStack = event.getItem();
-        sendSingleToFeature(useStack, event);
+        sendSingleToFeature(event.getItem(), event);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDrop(PlayerDropItemEvent event) {
-        ItemStack dropStack = event.getItemDrop().getItemStack();
-        sendSingleToFeature(dropStack, event);
+        sendSingleToFeature(event.getItemDrop().getItemStack(), event);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -70,26 +59,14 @@ public class ItemListener implements Listener {
         List<ItemStack> keep = new ArrayList<>();
         for (ItemStack stack : event.getDrops()) {
             // Find AsukaItem to check feature.
-            if (stack != null && AsukaMeow
-                    .INSTANCE
-                    .getNMSManager()
-                    .getItemFactory()
-                    .isAsukaItem(stack)
-            ) {
-                AsukaItem asukaItem = AsukaMeow.INSTANCE
+            if (AsukaMeow.INSTANCE.getNMSManager().getItemFactory().hasFeature(stack)) {
+                IFeature feat = AsukaMeow.INSTANCE
                         .getNMSManager()
-                        .getItemFactory()
-                        .getAsukaItem(stack);
-                for (Feature feat : asukaItem.getFeatures()) {
-                    // Find Binding Feature
-                    if (feat instanceof FeatureBinding) {
-                        // Found & check can drop or not.
-                        if (((FeatureBinding) feat).getType() == FeatureBinding.Type.UNDROPABLE)
-                            // Don't  drop.
-                            keep.add(stack);
-                        // Whether can drop or not. Just break to next item;
-                        break;
-                    }
+                        .getFeatureFactory()
+                        .manualDeserialize(FeatureBinding.name, stack);
+                if (feat != null) {
+                    if (((FeatureBinding) feat).getType() == FeatureBinding.Type.UNDROPABLE)
+                        keep.add(stack);
                 }
             }
         }

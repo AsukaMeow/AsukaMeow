@@ -1,27 +1,24 @@
 package at.meowww.AsukaMeow.item.feature;
 
-import at.meowww.AsukaMeow.item.AsukaItem;
 import com.google.gson.JsonObject;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.List;
 
-public class FeatureBinding extends Feature {
+public abstract class FeatureBinding implements IFeature {
 
     public static final String name = "BINDING";
-    private Type type;
+    protected Type type;
+
+    public FeatureBinding () {}
 
     public FeatureBinding(Type type) {
         this.type = type;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     public Type getType () {
@@ -29,38 +26,31 @@ public class FeatureBinding extends Feature {
     }
 
     @Override
-    public <T extends Event> void trigger(AsukaItem item, T event) {
-        if (event instanceof  PlayerDropItemEvent)
-            onDrop(item, (PlayerDropItemEvent) event);
-        else if (event instanceof  InventoryClickEvent)
-            onInventoryClickSlot(item, (InventoryClickEvent) event);
-    }
+    public abstract <T extends Event> void trigger(ItemStack itemStack, T event);
 
     @Override
-    public <T extends Event> void updateLore(AsukaItem item, T event) {
+    public <T extends Event> void updateLore(ItemStack item, T event) {
         updateLore(item);
     }
 
-    @Override
-    public void updateLore(AsukaItem item) {
-        List<String> lores = item.getItemStack().getLore();
+    public void updateLore(ItemStack item) {
+        List<String> lores = item.getLore();
         if (!lores.contains("§3靈魂綁定")) {
             if (type == Type.UNDROPABLE)
                 lores.add(0, "§3靈魂綁定");
-            item.getItemStack().setLore(lores);
+            item.setLore(lores);
         }
     }
 
-    public void onDrop(AsukaItem item, PlayerDropItemEvent event) {
+    public void onDrop(ItemStack item, PlayerDropItemEvent event) {
         if (type == Type.UNDROPABLE) {
             event.getPlayer().sendActionBar("靈魂綁定的物品不能被丟棄");
             event.setCancelled(true);
         }
     }
 
-    public void onInventoryClickSlot(AsukaItem item, InventoryClickEvent event) {
+    public void onInventoryClickSlot(ItemStack item, InventoryClickEvent event) {
         if (type == Type.UNDROPABLE) {
-            System.out.println(event.getInventory().getType());
             if (event.isShiftClick())
                 event.setCancelled(!event.getInventory().getType().equals(InventoryType.CRAFTING));
             else if (!(event.getClickedInventory() instanceof PlayerInventory))
@@ -68,19 +58,17 @@ public class FeatureBinding extends Feature {
         }
     }
 
-    public static JsonObject serialize(Feature feat) {
+    public abstract ItemStack serialize(ItemStack itemStack);
+
+    public static JsonObject serialize(IFeature feat) {
         FeatureBinding feature = (FeatureBinding) feat;
         JsonObject jsonObj = new JsonObject();
-        jsonObj.addProperty("name", feature.getName());
+        jsonObj.addProperty("name", FeatureBinding.name);
         jsonObj.addProperty("type", feature.type.name());
         return jsonObj;
     }
 
-    public static FeatureBinding deserialize(JsonObject jsonObj) {
-        return new FeatureBinding(
-                Type.valueOf(jsonObj.get("type").getAsString().toUpperCase())
-        );
-    }
+    public abstract FeatureBinding deserialize(ItemStack itemStack);
 
     public enum Type {
         DROPABLE,

@@ -1,7 +1,7 @@
 package at.meowww.AsukaMeow.item;
 
 import at.meowww.AsukaMeow.AsukaMeow;
-import at.meowww.AsukaMeow.item.feature.Feature;
+import at.meowww.AsukaMeow.item.feature.IFeature;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.bukkit.NamespacedKey;
@@ -15,13 +15,13 @@ public class AsukaItem {
 
     private NamespacedKey id;
     private ItemStack itemStack;
-    private Set<Feature> features;
+    private Set<IFeature> features;
 
     public AsukaItem(NamespacedKey id, ItemStack itemStack) {
         this(id, itemStack, new HashSet<>());
     }
 
-    public AsukaItem(NamespacedKey id, ItemStack itemStack, Set<Feature> features) {
+    public AsukaItem(NamespacedKey id, ItemStack itemStack, Set<IFeature> features) {
         this.id = id;
         this.itemStack = itemStack;
         this.features = features;
@@ -36,7 +36,7 @@ public class AsukaItem {
         return this.itemStack;
     }
 
-    public Set<Feature> getFeatures () {
+    public Set<IFeature> getFeatures () {
         return this.features;
     }
 
@@ -50,13 +50,15 @@ public class AsukaItem {
                 ItemFlag.HIDE_UNBREAKABLE,
                 ItemFlag.HIDE_DESTROYS
         );
-        this.features.forEach(feature -> feature.updateLore(this));
+        this.features.forEach(feature -> feature.updateLore(itemStack));
     }
 
     public static JsonArray featuresSerialize (AsukaItem asukaItem) {
         JsonArray featureArr = new JsonArray();
-        asukaItem.features.forEach(feature ->
-                featureArr.add(Feature.serialize(feature)));
+        asukaItem.features.forEach(feature -> featureArr.add(AsukaMeow.INSTANCE
+                .getNMSManager()
+                .getFeatureFactory()
+                .serialize(feature)));
         return featureArr;
     }
 
@@ -76,9 +78,11 @@ public class AsukaItem {
         return jsonObj;
     }
 
-    public static Set<Feature> featuresDeserialize (JsonArray jsonArr) {
-        Set<Feature> features = new HashSet<>();
-        jsonArr.forEach(ele -> features.add(Feature.deserialize(ele)));
+    public static Set<IFeature> featuresDeserialize (JsonArray jsonArr) {
+        Set<IFeature> features = new HashSet<>();
+        jsonArr.forEach(ele -> features.add(AsukaMeow.INSTANCE
+                .getNMSManager()
+                .getFeatureFactory().deserialize(ele)));
         return features;
     }
 
@@ -92,7 +96,7 @@ public class AsukaItem {
                 .getItemFactory()
                 .deserialize(jsonObj.get("item_stack").getAsString());
 
-        Set<Feature> features = new HashSet<>();
+        Set<IFeature> features = new HashSet<>();
         if (jsonObj.has("feature"))
             features = featuresDeserialize(
                     jsonObj.get("feature").getAsJsonArray());
