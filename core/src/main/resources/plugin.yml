@@ -13,6 +13,7 @@ commands:
     description: Controll the AsukaMeow's items.
     usage: |
       /asuka-item reload
+      /asuka-item give [item_id]
   asuka-system:
     description: Controll the AsukaMeow's systems.
     usage: |

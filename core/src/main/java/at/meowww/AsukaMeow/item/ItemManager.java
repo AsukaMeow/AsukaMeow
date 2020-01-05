@@ -10,6 +10,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,5 +67,20 @@ public class ItemManager implements IMongoStorable {
                     new ReplaceOptions().upsert(true));
         });
     }
-    
+
+    public void givePlayer(Player player, String key) {
+        String[] keys = key.split(":");
+        givePlayer(player, new NamespacedKey(keys[0], keys[1]));
+    }
+
+    public void givePlayer(Player player, NamespacedKey key) {
+        if (itemStackMap.containsKey(key))
+            player.getInventory().addItem(AsukaMeow
+                    .INSTANCE
+                    .getNMSManager()
+                    .getItemFactory()
+                    .setAsukaItem(itemStackMap.get(key))
+            );
+    }
+
 }

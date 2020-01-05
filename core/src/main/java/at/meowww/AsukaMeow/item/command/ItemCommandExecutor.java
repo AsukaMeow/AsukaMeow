@@ -40,6 +40,9 @@ public class ItemCommandExecutor implements CommandExecutor, TabCompleter {
         if (args[0].equalsIgnoreCase("reload")) {
             return ReloadCommand.onCommand(
                     this, commandSender, command, s, args);
+        } else if (args[0].equalsIgnoreCase("give")) {
+            return GiveCommand.onCommand(
+                    this,commandSender, command, s, args);
         } else {
             return false;
         }
@@ -59,9 +62,12 @@ public class ItemCommandExecutor implements CommandExecutor, TabCompleter {
             case "reload":
                 return ReloadCommand.onTabComplete(
                         this, commandSender, command, s, args);
+            case "give":
+                return GiveCommand.onTabComplete(
+                        this, commandSender, command, s , args);
             default:
                 return Arrays.asList(new String[] {
-                        "reload",
+                        "reload", "give",
                 });
         }
     }

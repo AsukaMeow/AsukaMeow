@@ -1,5 +1,6 @@
 package at.meowww.AsukaMeow.nms;
 
+import at.meowww.AsukaMeow.item.AsukaItem;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -25,5 +26,9 @@ public abstract class ItemFactory {
      * @return
      */
     public abstract ItemStack deserialize (String str);
+
+    public abstract AsukaItem getAsukaItem(ItemStack itemStack);
+
+    public abstract ItemStack setAsukaItem(AsukaItem asukaItem);
 
 }
