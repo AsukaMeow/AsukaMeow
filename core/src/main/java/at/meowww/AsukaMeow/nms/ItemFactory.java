@@ -31,4 +31,6 @@ public abstract class ItemFactory {
 
     public abstract ItemStack setAsukaItem(AsukaItem asukaItem);
 
+    public abstract boolean isAsukaItem(ItemStack itemStack);
+
 }

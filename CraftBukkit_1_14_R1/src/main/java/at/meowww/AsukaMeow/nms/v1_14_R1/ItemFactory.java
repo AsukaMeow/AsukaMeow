@@ -57,5 +57,13 @@ public class ItemFactory extends at.meowww.AsukaMeow.nms.ItemFactory {
         nmsStack.setTag(tagCompound);
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
-    
+
+    public boolean isAsukaItem(ItemStack itemStack) {
+        net.minecraft.server.v1_14_R1.ItemStack nmsStack =
+                CraftItemStack.asNMSCopy(itemStack);
+        if (!nmsStack.hasTag())
+            return false;
+        return nmsStack.getTag().hasKey("AsukaItem");
+    }
+
 }
