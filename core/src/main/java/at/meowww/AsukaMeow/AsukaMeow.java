@@ -5,6 +5,7 @@ import at.meowww.AsukaMeow.database.DatabaseManager;
 import at.meowww.AsukaMeow.dialog.DialogManager;
 import at.meowww.AsukaMeow.dialog.command.DialogCommandExecutor;
 import at.meowww.AsukaMeow.item.ItemManager;
+import at.meowww.AsukaMeow.item.command.ItemCommandExecutor;
 import at.meowww.AsukaMeow.nms.NMSManager;
 import at.meowww.AsukaMeow.system.SystemManager;
 import at.meowww.AsukaMeow.system.command.SystemCommandExecutor;
@@ -38,6 +39,7 @@ public class AsukaMeow extends JavaPlugin {
     private World defaultWorld;
 
     DialogCommandExecutor dialogCommandExecutor;
+    ItemCommandExecutor itemCommandExecutor;
     SystemCommandExecutor systemCommandExecutor;
 
     @Override
@@ -75,9 +77,11 @@ public class AsukaMeow extends JavaPlugin {
 
         // CommandExecutors
         dialogCommandExecutor = new DialogCommandExecutor(this, dialogManager);
+        itemCommandExecutor = new ItemCommandExecutor(this, itemManager);
         systemCommandExecutor = new SystemCommandExecutor(this, systemManager);
         // Executor init
         dialogCommandExecutor.setExecutor();
+        itemCommandExecutor.setExecutor();
         systemCommandExecutor.setExecutor();
 
         // Register Listener

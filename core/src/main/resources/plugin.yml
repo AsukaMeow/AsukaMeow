@@ -9,6 +9,10 @@ commands:
       /asuka-dialog reload
       /asuka-dialog list
       /asuka-dialog open [UUID]
+  asuka-item:
+    description: Controll the AsukaMeow's items.
+    usage: |
+      /asuka-item reload
   asuka-system:
     description: Controll the AsukaMeow's systems.
     usage: |
