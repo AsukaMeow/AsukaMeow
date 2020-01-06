@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
  */
 public abstract class ItemFactory {
 
+    public abstract void updateOnlinePlayerInventory();
+
     /**
      * Serialize a ItemStack to Minecraft format string
      * @param itemStack
@@ -28,21 +30,21 @@ public abstract class ItemFactory {
     public abstract ItemStack deserialize (String str);
 
     /**
-     * Convert a AsukaItem to ItemStack with proper NBTTag set.
+     * Convert a AsukaItem to ItemStack with proper NBT Tag set.
      *
-     * This method should take an exists AsukaItem to ItemStack with
-     *  correct NBTTag setup to player.
+     * This method should take an exists AsukaItem build a ItemStack with
+     *  feature NBT Tag value write inside.
      * @param asukaItem
-     * @return ItemStack with NBTTags
+     * @return ItemStack with feature's NBT Tags
      */
     public abstract ItemStack toItemStack(AsukaItem asukaItem);
 
     /**
-     * Examine the given item stack has `feature` NBTTagCompound in stack's
-     *  tag.
-     * @param itemStack
-     * @return
+     * Check the given ItemStack's NBT Tag to determine an update from origin AsukaItem
+     *  or clear its NBTTag or do nothing.
+     * @param itemStack The ItemStack to be examine.
+     * @return The ItemStack after examine.
      */
-    public abstract boolean hasFeature(ItemStack itemStack);
+    public abstract ItemStack itemStackUpdate(ItemStack itemStack);
 
 }

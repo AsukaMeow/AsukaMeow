@@ -76,6 +76,15 @@ public class ItemListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
+        /* InventoryClickEvent sometimes would not fire properly under Creative mode.
+         * So the ItemStack update statement will not function.
+         */
+        // Examine clicked slot's ItemStack.
+        event.setCurrentItem(AsukaMeow.INSTANCE
+                .getNMSManager()
+                .getItemFactory()
+                .itemStackUpdate(event.getCurrentItem()));
+
         if (event.isShiftClick()) {
             sendSingleToFeature(event.getCurrentItem(), event);
         } else {

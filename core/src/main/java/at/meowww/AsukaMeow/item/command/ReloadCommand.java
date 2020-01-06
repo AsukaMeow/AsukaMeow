@@ -1,5 +1,6 @@
 package at.meowww.AsukaMeow.item.command;
 
+import at.meowww.AsukaMeow.AsukaMeow;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -18,6 +19,8 @@ public class ReloadCommand {
         commandSender.sendMessage("Reloaded "
                 + executor.itemManager.getItemStackMap().size()
                 + " items.");
+        AsukaMeow.INSTANCE.getNMSManager().getItemFactory().updateOnlinePlayerInventory();
+        commandSender.sendMessage("Player inventory updated! ");
         return true;
     }
 

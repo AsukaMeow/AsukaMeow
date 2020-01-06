@@ -106,6 +106,10 @@ public class UserInventory {
                             .getNMSManager()
                             .getItemFactory()
                             .deserialize((String) armorMap.get(index));
+                    armorStacks[i] = AsukaMeow.INSTANCE
+                            .getNMSManager()
+                            .getItemFactory()
+                            .itemStackUpdate(armorStacks[i]);
                 }
             }
         } else {
@@ -124,6 +128,10 @@ public class UserInventory {
                             .getNMSManager()
                             .getItemFactory()
                             .deserialize((String) invMap.get(index));
+                    storeStacks[i] = AsukaMeow.INSTANCE
+                            .getNMSManager()
+                            .getItemFactory()
+                            .itemStackUpdate(storeStacks[i]);
                 }
             }
         } else {
@@ -142,6 +150,10 @@ public class UserInventory {
                             .getNMSManager()
                             .getItemFactory()
                             .deserialize((String) extMap.get(index));
+                    extraStacks[i] = AsukaMeow.INSTANCE
+                            .getNMSManager()
+                            .getItemFactory()
+                            .itemStackUpdate(extraStacks[i]);
                 }
             }
         } else {

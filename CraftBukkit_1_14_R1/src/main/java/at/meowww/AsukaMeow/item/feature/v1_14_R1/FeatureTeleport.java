@@ -48,6 +48,27 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
     }
 
     @Override
+    public ItemStack update(ItemStack itemStack) {
+        net.minecraft.server.v1_14_R1.ItemStack nmsStack =
+                CraftItemStack.asNMSCopy(itemStack);
+        NBTTagCompound teleportCom = nmsStack.getTag()
+                .getCompound("feature")
+                .getCompound(FeatureTeleport.lowerName);
+
+        NBTTagCompound locCom = teleportCom.getCompound("location");
+        locCom.setString("world", location.getWorld().getName());
+        locCom.setDouble("x", location.getX());
+        locCom.setDouble("y", location.getY());
+        locCom.setDouble("z", location.getZ());
+        locCom.setFloat("yaw", location.getYaw());
+        locCom.setFloat("pitch", location.getPitch());
+
+        teleportCom.setInt("cooldown", cooldown);
+
+        return CraftItemStack.asBukkitCopy(nmsStack);
+    }
+
+    @Override
     public ItemStack serialize(ItemStack itemStack) {
         NBTTagCompound locCom = new NBTTagCompound();
         locCom.setString("world", location.getWorld().getName());

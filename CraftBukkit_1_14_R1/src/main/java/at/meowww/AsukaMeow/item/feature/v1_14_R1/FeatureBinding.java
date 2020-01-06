@@ -25,6 +25,19 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
     }
 
     @Override
+    public ItemStack update(ItemStack itemStack) {
+        net.minecraft.server.v1_14_R1.ItemStack nmsStack =
+                CraftItemStack.asNMSCopy(itemStack);
+        NBTTagCompound bindingCom = nmsStack.getTag()
+                .getCompound("feature")
+                .getCompound(FeatureBinding.lowerName);
+
+        bindingCom.setString("type", type.toString());
+
+        return CraftItemStack.asBukkitCopy(nmsStack);
+    }
+
+    @Override
     public ItemStack serialize(ItemStack itemStack) {
         NBTTagCompound bindingCom = new NBTTagCompound();
         bindingCom.setString("type", type.toString());

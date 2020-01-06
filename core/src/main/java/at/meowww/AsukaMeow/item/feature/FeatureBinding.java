@@ -53,10 +53,13 @@ public abstract class FeatureBinding implements IFeature {
 
     public void onInventoryClickSlot(ItemStack item, InventoryClickEvent event) {
         if (type == Type.UNDROPABLE) {
+            Event.Result result = Event.Result.ALLOW;
             if (event.isShiftClick())
-                event.setCancelled(!event.getInventory().getType().equals(InventoryType.CRAFTING));
+                result = event.getInventory().getType().equals(InventoryType.CRAFTING)
+                        ? Event.Result.ALLOW : Event.Result.DENY;
             else if (!(event.getClickedInventory() instanceof PlayerInventory))
-                event.setCancelled(true);
+                result = Event.Result.DENY;
+            event.setResult(result);
         }
     }
 

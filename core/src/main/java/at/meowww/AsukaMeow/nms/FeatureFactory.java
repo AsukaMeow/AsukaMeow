@@ -30,6 +30,17 @@ public abstract class FeatureFactory {
     public abstract void trigger(ItemStack itemStack, Event event);
 
     /**
+     * This method will retain some feature's state value, and it decide by feature itself.
+     *
+     * @param feature The feature which its default value is going to set.
+     * @param itemStack The ItemStack who is going to be reset its feature value.
+     *                  Value which is going to retain is decide by feature's update method.
+     *                  {@link IFeature#update(ItemStack)}
+     * @return The ItemStack with completely reset default value of given feature.
+     */
+    public abstract ItemStack featureUpdate(IFeature feature, ItemStack itemStack);
+
+    /**
      * Serialize a feature's data into JsonElement.
      * This method is call when a AsukaItem is going to be write to Database.
      * @param feature

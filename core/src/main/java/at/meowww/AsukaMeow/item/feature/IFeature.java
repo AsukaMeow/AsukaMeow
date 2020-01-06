@@ -11,6 +11,8 @@ public interface IFeature {
 
     void updateLore (ItemStack item);
 
+    ItemStack update(ItemStack itemStack);
+
     /**
      * This method serialize the data in feature into proper NBT format
      *  and add into ItemStack's NBT tags.

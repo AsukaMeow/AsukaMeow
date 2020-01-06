@@ -39,6 +39,17 @@ public class ItemManager implements IMongoStorable {
         return this.itemStackMap;
     }
 
+    public AsukaItem getAsukaItem (String key) {
+        String[] keys = key.split(":");
+        return getAsukaItem(new NamespacedKey(keys[0], keys[1]));
+    }
+
+    public AsukaItem getAsukaItem (NamespacedKey key) {
+        if (this.itemStackMap.containsKey(key))
+            return this.itemStackMap.get(key);
+        return null;
+    }
+
     public void loadItems() {
         Document document;
         Map<NamespacedKey, AsukaItem> loadedItemStackMap = new HashMap<>();
