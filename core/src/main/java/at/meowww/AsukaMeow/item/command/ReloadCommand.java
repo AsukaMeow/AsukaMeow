@@ -3,6 +3,7 @@ package at.meowww.AsukaMeow.item.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReloadCommand {
@@ -26,7 +27,11 @@ public class ReloadCommand {
             Command command,
             String s,
             String[] args) {
-        return null;
+        List<String> keys = new ArrayList<>();
+        executor.itemManager.getItemStackMap().keySet()
+                .forEach(key -> keys.add(key.toString()));
+        keys.add("all");
+        return keys;
     }
 
 }

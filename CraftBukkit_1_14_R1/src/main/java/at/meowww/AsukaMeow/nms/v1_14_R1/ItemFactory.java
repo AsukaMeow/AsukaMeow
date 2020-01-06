@@ -36,15 +36,13 @@ public class ItemFactory extends at.meowww.AsukaMeow.nms.ItemFactory {
             itemStack = AsukaMeow.INSTANCE.getNMSManager()
                     .getFeatureFactory()
                     .serialize(feature, itemStack);
-        return itemStack;
-    }
 
-    public boolean hasFeature(ItemStack itemStack) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack =
                 CraftItemStack.asNMSCopy(itemStack);
-        if (!nmsStack.hasTag())
-            return false;
-        return nmsStack.getTag().hasKey("feature");
+        NBTTagCompound tagCom = nmsStack.getTag();
+        tagCom.setString("base_item", asukaItem.getId().toString());
+        tagCom.setInt("base_hash", asukaItem.hash());
+        return CraftItemStack.asBukkitCopy(nmsStack);
     }
-
+    
 }

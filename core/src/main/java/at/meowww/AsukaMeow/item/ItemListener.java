@@ -27,7 +27,7 @@ public class ItemListener implements Listener {
     }
 
     private void sendSingleToFeature(ItemStack itemStack, Event event) {
-        if (AsukaMeow.INSTANCE.getNMSManager().getItemFactory().hasFeature(itemStack)) {
+        if (AsukaMeow.INSTANCE.getNMSManager().getFeatureFactory().hasFeature(itemStack)) {
             AsukaMeow.INSTANCE.getNMSManager()
                     .getFeatureFactory().trigger(itemStack, event);
         }
@@ -59,7 +59,7 @@ public class ItemListener implements Listener {
         List<ItemStack> keep = new ArrayList<>();
         for (ItemStack stack : event.getDrops()) {
             // Find AsukaItem to check feature.
-            if (AsukaMeow.INSTANCE.getNMSManager().getItemFactory().hasFeature(stack)) {
+            if (AsukaMeow.INSTANCE.getNMSManager().getFeatureFactory().hasFeature(stack)) {
                 IFeature feat = AsukaMeow.INSTANCE
                         .getNMSManager()
                         .getFeatureFactory()

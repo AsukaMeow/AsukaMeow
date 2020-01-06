@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class AsukaItem {
@@ -51,6 +52,10 @@ public class AsukaItem {
                 ItemFlag.HIDE_DESTROYS
         );
         this.features.forEach(feature -> feature.updateLore(itemStack));
+    }
+
+    public int hash() {
+        return Objects.hash(itemStack, features);
     }
 
     public static JsonArray featuresSerialize (AsukaItem asukaItem) {

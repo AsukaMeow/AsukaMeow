@@ -8,12 +8,14 @@ import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTeleport {
@@ -28,6 +30,9 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
     public <T extends Event> void trigger(ItemStack itemStack, T event) {
         if (event instanceof PlayerInteractEvent) {
             PlayerInteractEvent pie = (PlayerInteractEvent) event;
+            if (pie.getAction() != Action.RIGHT_CLICK_AIR)
+                return;
+
             if (new Date().after(nextUseDatetime)) {
                 nextUseDatetime = DateUtils.addSeconds(new Date(), cooldown);
                 pie.getPlayer().teleport(location);
@@ -66,6 +71,10 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
             tagCom.set("feature", featureCom);
 
         return CraftItemStack.asBukkitCopy(nmsStack);
+    }
+
+    public int hashCode() {
+        return Objects.hash(location, cooldown);
     }
 
     public static JsonObject serialize(IFeature feat) {
@@ -131,4 +140,5 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
                 nextUseDatetime
         );
     }
+
 }

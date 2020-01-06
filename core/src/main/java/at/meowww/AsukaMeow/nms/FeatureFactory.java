@@ -14,6 +14,14 @@ import org.bukkit.inventory.ItemStack;
 public abstract class FeatureFactory {
 
     /**
+     * Examine the given ItemStack has `feature` NBTTagCompound in stack's
+     *  tag.
+     * @param itemStack
+     * @return
+     */
+    public abstract boolean hasFeature(ItemStack itemStack);
+
+    /**
      * Gateway method to pass any Bukkit event to feature.
      * The feature will implement proper event handler and pass in this method.
      * @param itemStack
@@ -30,8 +38,8 @@ public abstract class FeatureFactory {
     public abstract JsonObject serialize(IFeature feature);
 
     /**
-     * Write the given feature's NBT data into given item stack, and output
-     * the item stack.
+     * Write the given feature's NBT data into given ItemStack, and output
+     * the ItemStack.
      * @param feature
      * @param itemStack
      * @return
@@ -47,7 +55,7 @@ public abstract class FeatureFactory {
     public abstract IFeature deserialize(JsonElement jsonEle);
 
     /**
-     * This method allows deserialize a item stack's NBT tag with given Feature name.
+     * This method allows deserialize a ItemStack's NBT tag with given Feature name.
      * If given {@param itemStackitem} stack's NBT tag contains with {@param featureName},
      *  will return the deserialize result, otherwise null.
      * @param featureName

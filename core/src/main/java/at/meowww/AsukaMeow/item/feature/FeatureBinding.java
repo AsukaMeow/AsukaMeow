@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class FeatureBinding implements IFeature {
 
@@ -57,6 +58,10 @@ public abstract class FeatureBinding implements IFeature {
             else if (!(event.getClickedInventory() instanceof PlayerInventory))
                 event.setCancelled(true);
         }
+    }
+
+    public int hashCode() {
+        return Objects.hashCode(type);
     }
 
     public abstract ItemStack serialize(ItemStack itemStack);

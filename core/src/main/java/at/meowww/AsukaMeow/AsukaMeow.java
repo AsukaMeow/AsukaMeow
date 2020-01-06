@@ -109,6 +109,10 @@ public class AsukaMeow extends JavaPlugin {
         return this.nmsManager;
     }
 
+    public ItemManager getItemManager () {
+        return this.itemManager;
+    }
+
     public DialogManager getDialogManager () {
         return this.dialogManager;
     }

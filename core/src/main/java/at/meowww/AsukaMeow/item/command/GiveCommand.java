@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GiveCommand {
@@ -24,7 +25,10 @@ public class GiveCommand {
             Command command,
             String s,
             String[] args) {
-        return null;
+        List<String> keys = new ArrayList<>();
+        executor.itemManager.getItemStackMap().keySet()
+                .forEach(key -> keys.add(key.toString()));
+        return keys;
     }
 
 }

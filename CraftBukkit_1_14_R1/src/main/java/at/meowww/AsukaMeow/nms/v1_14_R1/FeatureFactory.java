@@ -12,6 +12,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
 
+    public boolean hasFeature(ItemStack itemStack) {
+        net.minecraft.server.v1_14_R1.ItemStack nmsStack =
+                CraftItemStack.asNMSCopy(itemStack);
+        if (!nmsStack.hasTag())
+            return false;
+        return nmsStack.getTag().hasKey("feature");
+    }
+
     public void trigger(ItemStack itemStack, Event event) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack =
                 CraftItemStack.asNMSCopy(itemStack);
