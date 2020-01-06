@@ -2,6 +2,7 @@ package at.meowww.AsukaMeow.item;
 
 import at.meowww.AsukaMeow.AsukaMeow;
 import at.meowww.AsukaMeow.database.IMongoStorable;
+import at.meowww.AsukaMeow.dialog.Dialog;
 import com.google.gson.JsonParser;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -48,6 +49,19 @@ public class ItemManager implements IMongoStorable {
         if (this.itemStackMap.containsKey(key))
             return this.itemStackMap.get(key);
         return null;
+    }
+
+    public void loadItem(NamespacedKey key) {
+        Object obj = itemCol.find(new Document("id", key.toString())).first();
+        if (obj != null) {
+            AsukaItem asukaItem = AsukaItem.deserialize(new JsonParser().parse(
+                    ((Document) obj).toJson()).getAsJsonObject()
+            );
+            if (itemStackMap.containsKey(key))
+                itemStackMap.replace(key, asukaItem);
+            else
+                itemStackMap.put(key, asukaItem);
+        }
     }
 
     public void loadItems() {

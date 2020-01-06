@@ -75,6 +75,14 @@ public class AsukaMeow extends JavaPlugin {
         itemManager.loadItems();
         systemManager.load();
 
+        // Register Listener
+        userManager.registerListener();
+        logger.info("UserManager loaded!");
+        dialogManager.registerListener();
+        logger.info("DialogManager loaded!");
+        itemManager.registerListener();
+        logger.info("ItemManager loaded!");
+
         // CommandExecutors
         dialogCommandExecutor = new DialogCommandExecutor(this, dialogManager);
         itemCommandExecutor = new ItemCommandExecutor(this, itemManager);
@@ -83,14 +91,6 @@ public class AsukaMeow extends JavaPlugin {
         dialogCommandExecutor.setExecutor();
         itemCommandExecutor.setExecutor();
         systemCommandExecutor.setExecutor();
-
-        // Register Listener
-        userManager.registerListener();
-        logger.info("UserManager loaded!");
-        dialogManager.registerListener();
-        logger.info("AsukaMeow DialogManager loaded!");
-        itemManager.registerListener();
-        logger.info("ItemManager loaded!");
     }
 
     @Override

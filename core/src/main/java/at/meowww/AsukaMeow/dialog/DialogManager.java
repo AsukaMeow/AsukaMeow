@@ -63,24 +63,26 @@ public class DialogManager implements IMongoStorable {
 
     public void loadDialog (UUID uuid) {
         Object obj = dialogCol.find(new Document("uuid", uuid.toString())).first();
-        Dialog d = Dialog.fromDocument((Document) obj);
-        if (dialogMap.containsKey(d.getUUID()))
-            dialogMap.replace(d.getUUID(), d);
-        else
-            dialogMap.put(d.getUUID(), d);
+        if (obj != null) {
+            Dialog d = Dialog.fromDocument((Document) obj);
+            if (dialogMap.containsKey(d.getUUID()))
+                dialogMap.replace(d.getUUID(), d);
+            else
+                dialogMap.put(d.getUUID(), d);
+        }
     }
 
     public void loadDialogs () {
-        Map<UUID, Dialog> loadedDialogMap = new HashMap<>();
         Dialog d;
+        Map<UUID, Dialog> loadedDialogMap = new HashMap<>();
         MongoCursor<Document> cursor = dialogCol.find().cursor();
         while(cursor.hasNext()) {
-            try {
-                d = Dialog.fromDocument(cursor.next());
-                loadedDialogMap.put(d.getUUID(), d);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            d = Dialog.fromDocument(cursor.next());
+            loadedDialogMap.put(d.getUUID(), d);
+            AsukaMeow.INSTANCE.getLogger().info("Dialog ["
+                    + d.getTitle().toPlainText() + "/"
+                    + d.getUUID().toString()
+                    + "] loaded!");
         }
         dialogMap = loadedDialogMap;
         AsukaMeow.INSTANCE.getLogger().info("Loaded " + dialogMap.size() + " dialogs!");
