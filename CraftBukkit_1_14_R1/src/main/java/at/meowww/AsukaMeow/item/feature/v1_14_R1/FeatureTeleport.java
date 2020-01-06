@@ -61,7 +61,7 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
         NBTTagCompound tagCom = nmsStack.getOrCreateTag();
 
         NBTTagCompound featureCom = tagCom.getCompound("feature");
-        featureCom.set("teleport", teleportCom);
+        featureCom.set(FeatureTeleport.lowerName, teleportCom);
         if (!tagCom.hasKey("feature"))
             tagCom.set("feature", featureCom);
 
@@ -91,7 +91,7 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
     public at.meowww.AsukaMeow.item.feature.FeatureTeleport deserialize(ItemStack itemStack) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
-        NBTTagCompound teleportCom = featureCom.getCompound("teleport");
+        NBTTagCompound teleportCom = featureCom.getCompound(FeatureTeleport.lowerName);
         NBTTagCompound locCom = teleportCom.getCompound("location");
         Map<String, Object> locMap = new HashMap<>();
         locMap.put("world", locCom.getString("world"));

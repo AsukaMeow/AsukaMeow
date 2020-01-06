@@ -33,7 +33,7 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
         NBTTagCompound tagCom = nmsStack.getOrCreateTag();
 
         NBTTagCompound featureCom = tagCom.getCompound("feature");
-        featureCom.set("binding", bindingCom);
+        featureCom.set(FeatureBinding.lowerName, bindingCom);
         if (!tagCom.hasKey("feature"))
             tagCom.set("feature", featureCom);
 
@@ -44,7 +44,7 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
     public at.meowww.AsukaMeow.item.feature.FeatureBinding deserialize(ItemStack itemStack) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
-        NBTTagCompound bindingCom = featureCom.getCompound("binding");
+        NBTTagCompound bindingCom = featureCom.getCompound(FeatureBinding.lowerName);
 
         this.type = Type.valueOf(bindingCom.getString("type"));
         return this;

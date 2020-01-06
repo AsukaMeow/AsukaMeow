@@ -16,9 +16,9 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack =
                 CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
-        if (featureCom.hasKey("teleport"))
+        if (featureCom.hasKey(FeatureTeleport.lowerName))
             new FeatureTeleport().deserialize(itemStack).trigger(itemStack, event);
-        if (featureCom.hasKey("binding"))
+        if (featureCom.hasKey(FeatureBinding.lowerName))
             new FeatureBinding().deserialize(itemStack).trigger(itemStack, event);
     }
 
@@ -57,10 +57,11 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack =
                 CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
-        if (featureName.equalsIgnoreCase("teleport") && featureCom.hasKey("teleport"))
+        if (featureName.equalsIgnoreCase(FeatureTeleport.lowerName) && featureCom.hasKey(FeatureTeleport.lowerName))
             return new FeatureTeleport().deserialize(itemStack);
-        else if (featureName.equalsIgnoreCase("binding") && featureCom.hasKey("binding"))
+        else if (featureName.equalsIgnoreCase(FeatureBinding.lowerName) && featureCom.hasKey(FeatureBinding.lowerName))
             return new FeatureBinding().deserialize(itemStack);
         return null;
     }
+
 }

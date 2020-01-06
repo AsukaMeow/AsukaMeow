@@ -27,8 +27,22 @@ public abstract class ItemFactory {
      */
     public abstract ItemStack deserialize (String str);
 
+    /**
+     * Convert a AsukaItem to ItemStack with proper NBTTag set.
+     *
+     * This method should take an exists AsukaItem to ItemStack with
+     *  correct NBTTag setup to player.
+     * @param asukaItem
+     * @return ItemStack with NBTTags
+     */
     public abstract ItemStack toItemStack(AsukaItem asukaItem);
 
+    /**
+     * Examine the given item stack has `feature` NBTTagCompound in stack's
+     *  tag.
+     * @param itemStack
+     * @return
+     */
     public abstract boolean hasFeature(ItemStack itemStack);
 
 }

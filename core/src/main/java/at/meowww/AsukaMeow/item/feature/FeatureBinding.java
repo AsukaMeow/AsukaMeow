@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class FeatureBinding implements IFeature {
 
     public static final String name = "BINDING";
+    public static final String lowerName = name.toLowerCase();
     protected Type type;
 
     public FeatureBinding () {}

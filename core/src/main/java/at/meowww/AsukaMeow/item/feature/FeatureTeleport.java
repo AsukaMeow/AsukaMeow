@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class FeatureTeleport implements IFeature {
 
     public static final String name ="TELEPORT";
+    public static final String lowerName = name.toLowerCase();
     protected Location location;
     protected int cooldown;
     protected Date nextUseDatetime;
