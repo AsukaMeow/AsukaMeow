@@ -2,7 +2,6 @@ package at.meowww.AsukaMeow.item;
 
 import at.meowww.AsukaMeow.AsukaMeow;
 import at.meowww.AsukaMeow.database.IMongoStorable;
-import at.meowww.AsukaMeow.dialog.Dialog;
 import com.google.gson.JsonParser;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;

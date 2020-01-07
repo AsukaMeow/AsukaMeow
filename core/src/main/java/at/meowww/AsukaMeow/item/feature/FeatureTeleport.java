@@ -26,9 +26,6 @@ public abstract class FeatureTeleport implements IFeature {
     }
 
     @Override
-    public abstract <T extends Event> void trigger(ItemStack itemStack, T event);
-
-    @Override
     public <T extends Event> void updateLore(ItemStack item, T event) {
         updateLore(item);
     }
@@ -52,9 +49,5 @@ public abstract class FeatureTeleport implements IFeature {
             item.setLore(lores);
         }
     }
-
-    public abstract ItemStack serialize(ItemStack itemStack);
-
-    public abstract FeatureTeleport deserialize(ItemStack itemStack);
 
 }

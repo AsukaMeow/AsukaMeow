@@ -21,5 +21,7 @@ public interface IFeature {
      */
     ItemStack serialize(ItemStack itemStack);
 
+    IFeature deserialize(ItemStack itemStack);
+
     int hashCode();
 }

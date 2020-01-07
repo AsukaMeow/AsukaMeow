@@ -28,9 +28,6 @@ public abstract class FeatureBinding implements IFeature {
     }
 
     @Override
-    public abstract <T extends Event> void trigger(ItemStack itemStack, T event);
-
-    @Override
     public <T extends Event> void updateLore(ItemStack item, T event) {
         updateLore(item);
     }
@@ -67,8 +64,6 @@ public abstract class FeatureBinding implements IFeature {
         return Objects.hashCode(type);
     }
 
-    public abstract ItemStack serialize(ItemStack itemStack);
-
     public static JsonObject serialize(IFeature feat) {
         FeatureBinding feature = (FeatureBinding) feat;
         JsonObject jsonObj = new JsonObject();
@@ -77,10 +72,9 @@ public abstract class FeatureBinding implements IFeature {
         return jsonObj;
     }
 
-    public abstract FeatureBinding deserialize(ItemStack itemStack);
-
     public enum Type {
         DROPABLE,
         UNDROPABLE;
     }
+
 }
