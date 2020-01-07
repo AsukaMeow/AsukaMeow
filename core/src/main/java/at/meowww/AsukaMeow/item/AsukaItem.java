@@ -26,7 +26,6 @@ public class AsukaItem {
         this.id = id;
         this.itemStack = itemStack;
         this.features = features;
-        this.resetItemInfo();
     }
 
     public NamespacedKey getId() {
@@ -60,10 +59,13 @@ public class AsukaItem {
 
     public static JsonArray featuresSerialize (AsukaItem asukaItem) {
         JsonArray featureArr = new JsonArray();
-        asukaItem.features.forEach(feature -> featureArr.add(AsukaMeow.INSTANCE
-                .getNMSManager()
-                .getFeatureFactory()
-                .serialize(feature)));
+        asukaItem.features.forEach(feature -> {
+            featureArr.add(AsukaMeow.INSTANCE
+                    .getNMSManager()
+                    .getFeatureFactory()
+                    .serialize(feature));
+            asukaItem.itemStack = feature.resetLore(asukaItem.itemStack);
+        });
         return featureArr;
     }
 
@@ -71,14 +73,14 @@ public class AsukaItem {
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty("id", asukaItem.id.toString());
 
+        if (!asukaItem.features.isEmpty())
+            jsonObj.add("feature", featuresSerialize(asukaItem));
+
         jsonObj.addProperty("item_stack", AsukaMeow
                 .INSTANCE
                 .getNMSManager()
                 .getItemFactory()
                 .serialize(asukaItem.itemStack));
-
-        if (!asukaItem.features.isEmpty())
-            jsonObj.add("feature", featuresSerialize(asukaItem));
 
         return jsonObj;
     }

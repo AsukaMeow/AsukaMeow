@@ -50,6 +50,19 @@ public abstract class FeatureBinding implements IFeature {
         return itemStack;
     }
 
+    @Override
+    public ItemStack resetLore(ItemStack itemStack) {
+        List<String> lores = itemStack.getLore();
+        for (int i = 0; i < lores.size(); ++i) {
+            if (lores.get(i).contains("§3靈魂綁定")) {
+                lores.remove(i);
+                itemStack.setLore(lores);
+                return itemStack;
+            }
+        }
+        return itemStack;
+    }
+
     public int hashCode() {
         return Objects.hashCode(type);
     }

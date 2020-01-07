@@ -32,6 +32,8 @@ public abstract class FeatureFactory {
      */
     public abstract void trigger(ItemStack itemStack, Event event);
 
+    public abstract ItemStack resetVanillaItemStackLore(ItemStack itemStack);
+
     /**
      * This method will retain some feature's state value, and it decide by feature itself.
      *

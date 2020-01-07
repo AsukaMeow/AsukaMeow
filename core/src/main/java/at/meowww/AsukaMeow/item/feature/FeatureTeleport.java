@@ -62,16 +62,21 @@ public abstract class FeatureTeleport implements IFeature {
             itemStack.setLore(lores);
             return itemStack;
         } else {
-            List<String> lores = itemStack.getLore();
-            for (int i = 0; i < lores.size(); ++i) {
-                if (lores.get(i).contains("剩餘冷卻時間")) {
-                    lores.remove(i);
-                    itemStack.setLore(lores);
-                    return itemStack;
-                }
-            }
-            return itemStack;
+            return resetLore(itemStack);
         }
+    }
+
+    @Override
+    public ItemStack resetLore(ItemStack itemStack) {
+        List<String> lores = itemStack.getLore();
+        for (int i = 0; i < lores.size(); ++i) {
+            if (lores.get(i).contains("剩餘冷卻時間")) {
+                lores.remove(i);
+                itemStack.setLore(lores);
+                return itemStack;
+            }
+        }
+        return itemStack;
     }
 
     @Override

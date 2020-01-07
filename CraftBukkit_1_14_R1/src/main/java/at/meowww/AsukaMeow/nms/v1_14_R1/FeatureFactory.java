@@ -33,6 +33,20 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
     }
 
     @Override
+    public ItemStack resetVanillaItemStackLore(ItemStack itemStack) {
+        if (hasFeature(itemStack)) {
+            net.minecraft.server.v1_14_R1.ItemStack nmsStack =
+                    CraftItemStack.asNMSCopy(itemStack);
+            NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
+            if (featureCom.hasKey(FeatureTeleport.lowerName))
+                itemStack = new FeatureTeleport().deserialize(itemStack).resetLore(itemStack);
+            if (featureCom.hasKey(FeatureBinding.lowerName))
+                itemStack = new FeatureBinding().deserialize(itemStack).resetLore(itemStack);
+        }
+        return itemStack;
+    }
+
+    @Override
     public IFeature deserialize(JsonElement jsonEle) {
         JsonObject jsonObj = jsonEle.getAsJsonObject();
         switch (jsonObj.get("name").getAsString().toUpperCase()) {

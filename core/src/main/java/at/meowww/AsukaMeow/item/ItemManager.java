@@ -81,6 +81,8 @@ public class ItemManager implements IMongoStorable {
         itemStackMap = loadedItemStackMap;
 
         AsukaMeow.INSTANCE.getLogger().info("Loaded " + itemStackMap.size() + " items!");
+        itemStackMap.forEach((key, asukaItem) -> asukaItem.resetItemInfo());
+        AsukaMeow.INSTANCE.getLogger().info("AsukaItem's shaped " + itemStackMap.size() + " items to ItemStacks!");
     }
 
     public void saveItems() {

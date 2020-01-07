@@ -59,6 +59,10 @@ public class UserInventory {
         armorMap.put("size", armorStacks.length);
         for (int i = 0; i < armorStacks.length; ++i) {
             if (armorStacks[i] != null) {
+                armorStacks[i] = AsukaMeow.INSTANCE
+                        .getNMSManager()
+                        .getFeatureFactory()
+                        .resetVanillaItemStackLore(armorStacks[i]);
                 armorMap.put(
                         String.valueOf(i),
                         AsukaMeow.INSTANCE
@@ -75,6 +79,10 @@ public class UserInventory {
         invMap.put("size", storeStacks.length);
         for (int i = 0; i < storeStacks.length; ++i) {
             if (storeStacks[i] != null) {
+                storeStacks[i] = AsukaMeow.INSTANCE
+                        .getNMSManager()
+                        .getFeatureFactory()
+                        .resetVanillaItemStackLore(storeStacks[i]);
                 invMap.put(
                         String.valueOf(i),
                         AsukaMeow.INSTANCE
@@ -91,6 +99,10 @@ public class UserInventory {
         extMap.put("size", extraStacks.length);
         for (int i = 0; i < extraStacks.length; ++i) {
             if (extraStacks[i] != null) {
+                extraStacks[i] = AsukaMeow.INSTANCE
+                        .getNMSManager()
+                        .getFeatureFactory()
+                        .resetVanillaItemStackLore(extraStacks[i]);
                 extMap.put(
                         String.valueOf(i),
                         AsukaMeow.INSTANCE

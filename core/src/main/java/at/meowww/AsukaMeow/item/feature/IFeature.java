@@ -11,6 +11,8 @@ public interface IFeature {
 
     ItemStack updateLore (ItemStack itemStack);
 
+    ItemStack resetLore (ItemStack itemStack);
+
     ItemStack update(ItemStack itemStack);
 
     /**
