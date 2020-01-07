@@ -13,13 +13,15 @@ public abstract class FeatureTeleport implements IFeature {
 
     public static final String name ="TELEPORT";
     public static final String lowerName = name.toLowerCase();
+    protected String territoryId;
     protected Location location;
     protected int cooldown;
     protected Date nextUseDatetime;
 
     public FeatureTeleport () {}
 
-    public FeatureTeleport(Location location, int cooldown, Date nextUseDatetime) {
+    public FeatureTeleport(String territoryId, Location location, int cooldown, Date nextUseDatetime) {
+        this.territoryId = territoryId;
         this.location = location;
         this.cooldown = cooldown;
         this.nextUseDatetime = nextUseDatetime;
