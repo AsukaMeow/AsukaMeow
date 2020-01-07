@@ -31,33 +31,6 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
     }
 
     @Override
-    public ItemStack featureUpdate(IFeature feature, ItemStack itemStack) {
-        if (feature instanceof FeatureTeleport)
-            return feature.update(itemStack);
-        else if (feature instanceof FeatureBinding)
-            return feature.update(itemStack);
-        return itemStack;
-    }
-
-    @Override
-    public JsonObject serialize(IFeature feature) {
-        if (feature instanceof FeatureTeleport)
-            return FeatureTeleport.serialize(feature);
-        else if (feature instanceof FeatureBinding)
-            return FeatureBinding.serialize(feature);
-        return null;
-    }
-
-    @Override
-    public ItemStack serialize(IFeature feature, ItemStack itemStack) {
-        if (feature instanceof FeatureTeleport)
-            return feature.serialize(itemStack);
-        else if (feature instanceof FeatureBinding)
-            return feature.serialize(itemStack);
-        return null;
-    }
-
-    @Override
     public IFeature deserialize(JsonElement jsonEle) {
         JsonObject jsonObj = jsonEle.getAsJsonObject();
         switch (jsonObj.get("name").getAsString().toUpperCase()) {

@@ -5,8 +5,10 @@ import net.minecraft.server.v1_14_R1.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBinding {
 
@@ -17,11 +19,24 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
     }
 
     @Override
-    public <T extends Event> void trigger(ItemStack itemStack, T event) {
-        if (event instanceof PlayerDropItemEvent)
-            onDrop(itemStack, (PlayerDropItemEvent) event);
-        else if (event instanceof InventoryClickEvent)
-            onInventoryClickSlot(itemStack, (InventoryClickEvent) event);
+    public void onDrop(ItemStack item, PlayerDropItemEvent event) {
+        if (type == Type.UNDROPABLE) {
+            event.getPlayer().sendActionBar("靈魂綁定的物品不能被丟棄");
+            event.setCancelled(true);
+        }
+    }
+
+    @Override
+    public void onInventoryClickSlot(ItemStack item, InventoryClickEvent event) {
+        if (type == Type.UNDROPABLE) {
+            Event.Result result = Event.Result.ALLOW;
+            if (event.isShiftClick())
+                result = event.getInventory().getType().equals(InventoryType.CRAFTING)
+                        ? Event.Result.ALLOW : Event.Result.DENY;
+            else if (!(event.getClickedInventory() instanceof PlayerInventory))
+                result = Event.Result.DENY;
+            event.setResult(result);
+        }
     }
 
     @Override
@@ -54,7 +69,7 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
     }
 
     @Override
-    public at.meowww.AsukaMeow.item.feature.FeatureBinding deserialize(ItemStack itemStack) {
+    public FeatureBinding deserialize(ItemStack itemStack) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
         NBTTagCompound bindingCom = featureCom.getCompound(FeatureBinding.lowerName);
@@ -63,7 +78,7 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
         return this;
     }
 
-    public static at.meowww.AsukaMeow.item.feature.FeatureBinding deserialize(JsonObject jsonObj) {
+    public static FeatureBinding deserialize(JsonObject jsonObj) {
         return new FeatureBinding(
                 Type.valueOf(jsonObj.get("type").getAsString().toUpperCase())
         );

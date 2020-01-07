@@ -1,13 +1,11 @@
 package at.meowww.AsukaMeow.item.feature.v1_14_R1;
 
-import at.meowww.AsukaMeow.item.feature.IFeature;
 import at.meowww.AsukaMeow.util.Utils;
 import com.google.gson.JsonObject;
 import net.minecraft.server.v1_14_R1.NBTTagCompound;
 import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTeleport {
@@ -27,24 +24,21 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
     }
 
     @Override
-    public <T extends Event> void trigger(ItemStack itemStack, T event) {
-        if (event instanceof PlayerInteractEvent) {
-            PlayerInteractEvent pie = (PlayerInteractEvent) event;
-            if (pie.getAction() != Action.RIGHT_CLICK_AIR)
-                return;
+    public void onPlayerInteract(ItemStack itemStack, PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR)
+            return;
 
-            if (new Date().after(nextUseDatetime)) {
-                nextUseDatetime = DateUtils.addSeconds(new Date(), cooldown);
-                pie.getPlayer().teleport(location);
-                pie.getPlayer().sendActionBar("傳送 " + location);
-            } else {
-                pie.getPlayer().sendActionBar("傳送失敗: 仍需冷卻 "
-                        + Utils.getDatetimeDiffInt(new Date(), nextUseDatetime, TimeUnit.SECONDS)
-                        + " 秒."
-                );
-            }
-            pie.getPlayer().getInventory().setItemInMainHand(serialize(itemStack));
+        if (new Date().after(nextUseDatetime)) {
+            nextUseDatetime = DateUtils.addSeconds(new Date(), cooldown);
+            event.getPlayer().teleport(location);
+            event.getPlayer().sendActionBar("傳送 " + location);
+        } else {
+            event.getPlayer().sendActionBar("傳送失敗: 仍需冷卻 "
+                    + Utils.getDatetimeDiffInt(new Date(), nextUseDatetime, TimeUnit.SECONDS)
+                    + " 秒."
+            );
         }
+        event.getPlayer().getInventory().setItemInMainHand(serialize(itemStack));
     }
 
     @Override
@@ -94,31 +88,8 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
 
-    public int hashCode() {
-        return Objects.hash(location, cooldown);
-    }
-
-    public static JsonObject serialize(IFeature feat) {
-        FeatureTeleport feature = (FeatureTeleport) feat;
-        JsonObject jsonObj = new JsonObject();
-        jsonObj.addProperty("name", FeatureTeleport.name);
-
-        JsonObject locObj = new JsonObject();
-        locObj.addProperty("world", feature.location.getWorld().getName());
-        locObj.addProperty("x", feature.location.getX());
-        locObj.addProperty("y", feature.location.getY());
-        locObj.addProperty("z", feature.location.getZ());
-        locObj.addProperty("yaw", feature.location.getYaw());
-        locObj.addProperty("pitch", feature.location.getPitch());
-        jsonObj.add("location", locObj);
-
-        jsonObj.addProperty("cooldown", feature.cooldown);
-        jsonObj.addProperty("next_use_datetime", feature.nextUseDatetime.getTime());
-        return jsonObj;
-    }
-
     @Override
-    public at.meowww.AsukaMeow.item.feature.FeatureTeleport deserialize(ItemStack itemStack) {
+    public FeatureTeleport deserialize(ItemStack itemStack) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
         NBTTagCompound teleportCom = featureCom.getCompound(FeatureTeleport.lowerName);
@@ -141,7 +112,7 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
         return this;
     }
 
-    public static at.meowww.AsukaMeow.item.feature.FeatureTeleport deserialize(JsonObject jsonObj) {
+    public static FeatureTeleport deserialize(JsonObject jsonObj) {
         JsonObject locObj = jsonObj.get("location").getAsJsonObject();
         Map<String, Object> locMap = new HashMap<>();
         locMap.put("world", locObj.get("world").getAsString());

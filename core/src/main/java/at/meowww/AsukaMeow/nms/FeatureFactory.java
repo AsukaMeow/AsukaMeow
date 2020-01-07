@@ -1,5 +1,8 @@
 package at.meowww.AsukaMeow.nms;
 
+import at.meowww.AsukaMeow.item.feature.FeatureBinding;
+import at.meowww.AsukaMeow.item.feature.FeatureTeleport;
+import at.meowww.AsukaMeow.item.feature.FeatureTime;
 import at.meowww.AsukaMeow.item.feature.IFeature;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -38,7 +41,15 @@ public abstract class FeatureFactory {
      *                  {@link IFeature#update(ItemStack)}
      * @return The ItemStack with completely reset default value of given feature.
      */
-    public abstract ItemStack featureUpdate(IFeature feature, ItemStack itemStack);
+    public ItemStack featureUpdate(IFeature feature, ItemStack itemStack) {
+        if (feature instanceof FeatureTeleport)
+            return feature.update(itemStack);
+        else if (feature instanceof FeatureBinding)
+            return feature.update(itemStack);
+        else if (feature instanceof FeatureTime)
+            return feature.update(itemStack);
+        return itemStack;
+    }
 
     /**
      * Serialize a feature's data into JsonElement.
@@ -46,7 +57,15 @@ public abstract class FeatureFactory {
      * @param feature
      * @return
      */
-    public abstract JsonObject serialize(IFeature feature);
+    public JsonObject serialize(IFeature feature) {
+        if (feature instanceof FeatureTeleport)
+            return FeatureTeleport.serialize(feature);
+        else if (feature instanceof FeatureBinding)
+            return FeatureBinding.serialize(feature);
+        else if (feature instanceof FeatureTime)
+            return FeatureTime.serialize(feature);
+        return null;
+    }
 
     /**
      * Write the given feature's NBT data into given ItemStack, and output
@@ -55,7 +74,15 @@ public abstract class FeatureFactory {
      * @param itemStack
      * @return
      */
-    public abstract ItemStack serialize(IFeature feature, ItemStack itemStack);
+    public ItemStack serialize(IFeature feature, ItemStack itemStack) {
+        if (feature instanceof FeatureTeleport)
+            return feature.serialize(itemStack);
+        else if (feature instanceof FeatureBinding)
+            return feature.serialize(itemStack);
+        else if (feature instanceof FeatureTime)
+            return feature.serialize(itemStack);
+        return null;
+    }
 
     /**
      * Deserialize a JsonElement into Feature.
