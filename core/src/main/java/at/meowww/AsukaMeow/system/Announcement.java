@@ -16,6 +16,9 @@ public class Announcement {
     private Date startDate, endDate;
 
     public void sendAnnouncement(User user) {
+        if (dialogUUID == null || dialogUUID.equals(""))
+            return;
+
         if (new Date().after(startDate)) {
             if (user.getAnnounceReadDate().before(endDate) ||
                     endDate.equals(new Date(0))) {
