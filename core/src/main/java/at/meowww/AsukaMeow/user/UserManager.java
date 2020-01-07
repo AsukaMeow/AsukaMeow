@@ -46,6 +46,10 @@ public class UserManager implements IMongoStorable {
                 new ReplaceOptions().upsert(true));
     }
 
+    public User getUser (UUID uuid) {
+        return this.onlineUser.get(uuid);
+    }
+
     /**
      * This method is to port old player which currently missing database file of inventory.
      * To prevent there in-game inventory been clear.

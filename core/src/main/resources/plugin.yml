@@ -9,6 +9,11 @@ commands:
       /asuka-dialog reload
       /asuka-dialog list
       /asuka-dialog open [UUID]
+  asuka-territory:
+    description: Controll the AsukaMeow's territories.
+    usage: |
+      /asuka-territory reload
+      /asuka-territory list
   asuka-item:
     description: Controll the AsukaMeow's items.
     usage: |
