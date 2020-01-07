@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
 
+    @Override
     public boolean hasFeature(ItemStack itemStack) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack =
                 CraftItemStack.asNMSCopy(itemStack);
@@ -20,14 +21,15 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
         return nmsStack.getTag().hasKey("feature");
     }
 
+    @Override
     public void trigger(ItemStack itemStack, Event event) {
         net.minecraft.server.v1_14_R1.ItemStack nmsStack =
                 CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
         if (featureCom.hasKey(FeatureTeleport.lowerName))
-            new FeatureTeleport().deserialize(itemStack).trigger(itemStack, event);
+            itemStack = new FeatureTeleport().deserialize(itemStack).trigger(itemStack, event);
         if (featureCom.hasKey(FeatureBinding.lowerName))
-            new FeatureBinding().deserialize(itemStack).trigger(itemStack, event);
+            itemStack = new FeatureBinding().deserialize(itemStack).trigger(itemStack, event);
     }
 
     @Override

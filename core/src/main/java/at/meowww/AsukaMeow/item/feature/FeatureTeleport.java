@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
@@ -29,33 +30,47 @@ public abstract class FeatureTeleport implements IFeature {
     }
 
     @Override
-    public <T extends Event> void trigger(ItemStack itemStack, T event) {
+    public <T extends Event> ItemStack trigger(ItemStack itemStack, T event) {
         if (event instanceof PlayerInteractEvent)
-            onPlayerInteract(itemStack, (PlayerInteractEvent) event);
+            itemStack = onInteract(itemStack, (PlayerInteractEvent) event);
+        else if (event instanceof PlayerItemHeldEvent)
+            itemStack = onItemHeld(itemStack, (PlayerItemHeldEvent) event);
+        return itemStack;
     }
 
     @Override
-    public <T extends Event> void updateLore(ItemStack item, T event) {
-        updateLore(item);
+    public <T extends Event> ItemStack updateLore(ItemStack item, T event) {
+        return updateLore(item);
     }
 
     @Override
-    public void updateLore(ItemStack item) {
+    public ItemStack updateLore(ItemStack itemStack) {
         if (new Date().before(nextUseDatetime)) {
             String leftString = "剩餘冷卻時間："
                     + Utils.getDatetimeDiffInt(
                             new Date(), nextUseDatetime, TimeUnit.SECONDS)
                     + "秒";
-            List<String> lores = item.getLore();
+            List<String> lores = itemStack.getLore();
             for(int i = 0; i < lores.size(); ++i) {
                 if (lores.get(i).contains("剩餘冷卻時間：")) {
                     lores.set(i, leftString);
-                    item.setLore(lores);
-                    return;
+                    itemStack.setLore(lores);
+                    return itemStack;
                 }
             }
             lores.add(0, leftString);
-            item.setLore(lores);
+            itemStack.setLore(lores);
+            return itemStack;
+        } else {
+            List<String> lores = itemStack.getLore();
+            for (int i = 0; i < lores.size(); ++i) {
+                if (lores.get(i).contains("剩餘冷卻時間")) {
+                    lores.remove(i);
+                    itemStack.setLore(lores);
+                    return itemStack;
+                }
+            }
+            return itemStack;
         }
     }
 
@@ -83,5 +98,8 @@ public abstract class FeatureTeleport implements IFeature {
         return jsonObj;
     }
 
-    public abstract void onPlayerInteract(ItemStack itemStack, PlayerInteractEvent event);
+    public abstract ItemStack onInteract(ItemStack itemStack, PlayerInteractEvent event);
+
+    public abstract ItemStack onItemHeld(ItemStack itemStack, PlayerItemHeldEvent event);
+
 }

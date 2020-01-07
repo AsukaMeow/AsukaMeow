@@ -26,25 +26,28 @@ public abstract class FeatureBinding implements IFeature {
     }
 
     @Override
-    public <T extends Event> void trigger(ItemStack itemStack, T event) {
+    public <T extends Event> ItemStack trigger(ItemStack itemStack, T event) {
         if (event instanceof PlayerDropItemEvent)
-            onDrop(itemStack, (PlayerDropItemEvent) event);
+            itemStack = onDrop(itemStack, (PlayerDropItemEvent) event);
         else if (event instanceof InventoryClickEvent)
-            onInventoryClickSlot(itemStack, (InventoryClickEvent) event);
+            itemStack = onInventoryClickSlot(itemStack, (InventoryClickEvent) event);
+
+        return itemStack;
     }
 
     @Override
-    public <T extends Event> void updateLore(ItemStack item, T event) {
-        updateLore(item);
+    public <T extends Event> ItemStack updateLore(ItemStack item, T event) {
+        return updateLore(item);
     }
 
-    public void updateLore(ItemStack item) {
-        List<String> lores = item.getLore();
-        if (!lores.contains("§3靈魂綁定")) {
-            if (type == Type.UNDROPABLE)
+    public ItemStack updateLore(ItemStack itemStack) {
+        List<String> lores = itemStack.getLore();
+        if (type == Type.UNDROPABLE && !lores.contains("§3靈魂綁定"))
                 lores.add(0, "§3靈魂綁定");
-            item.setLore(lores);
-        }
+        else if (type == Type.DROPABLE && lores.contains("§3靈魂綁定"))
+                lores.remove("§3靈魂綁定");
+        itemStack.setLore(lores);
+        return itemStack;
     }
 
     public int hashCode() {
@@ -59,9 +62,9 @@ public abstract class FeatureBinding implements IFeature {
         return jsonObj;
     }
 
-    public abstract void onDrop(ItemStack item, PlayerDropItemEvent event);
+    public abstract ItemStack onDrop(ItemStack item, PlayerDropItemEvent event);
 
-    public abstract void onInventoryClickSlot(ItemStack item, InventoryClickEvent event);
+    public abstract ItemStack onInventoryClickSlot(ItemStack item, InventoryClickEvent event);
 
     public enum Type {
         DROPABLE,

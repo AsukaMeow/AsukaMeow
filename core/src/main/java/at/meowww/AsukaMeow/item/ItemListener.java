@@ -11,7 +11,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -33,9 +35,16 @@ public class ItemListener implements Listener {
         }
     }
 
+    /**
+     * Some Feature may modified Player's hand. So getItem method in event is not proper.
+     * By examine the event hand is main or off, to give item in main hand or off hand.
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemInteract(PlayerInteractEvent event) {
-        sendSingleToFeature(event.getItem(), event);
+        if(event.getHand().equals(EquipmentSlot.HAND))
+            sendSingleToFeature(event.getPlayer().getInventory().getItemInMainHand(), event);
+        else if(event.getHand().equals(EquipmentSlot.OFF_HAND))
+            sendSingleToFeature(event.getPlayer().getInventory().getItemInOffHand(), event);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -64,10 +73,8 @@ public class ItemListener implements Listener {
                         .getNMSManager()
                         .getFeatureFactory()
                         .manualDeserialize(FeatureBinding.name, stack);
-                if (feat != null) {
-                    if (((FeatureBinding) feat).getType() == FeatureBinding.Type.UNDROPABLE)
-                        keep.add(stack);
-                }
+                if (feat != null && ((FeatureBinding) feat).getType() == FeatureBinding.Type.UNDROPABLE)
+                    keep.add(stack);
             }
         }
         event.getDrops().removeAll(keep);
@@ -90,6 +97,12 @@ public class ItemListener implements Listener {
         } else {
             sendSingleToFeature(event.getCursor(), event);
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onItemHeld(PlayerItemHeldEvent event) {
+        sendSingleToFeature(event.getPlayer()
+                .getInventory().getItem(event.getNewSlot()), event);
     }
 
 }

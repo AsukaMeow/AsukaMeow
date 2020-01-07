@@ -6,8 +6,11 @@ import net.minecraft.server.v1_14_R1.NBTTagCompound;
 import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
@@ -24,21 +27,34 @@ public class FeatureTeleport extends at.meowww.AsukaMeow.item.feature.FeatureTel
     }
 
     @Override
-    public void onPlayerInteract(ItemStack itemStack, PlayerInteractEvent event) {
+    public ItemStack onInteract(ItemStack itemStack, PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR)
-            return;
+            return itemStack;
 
+        Player player = event.getPlayer();
         if (new Date().after(nextUseDatetime)) {
             nextUseDatetime = DateUtils.addSeconds(new Date(), cooldown);
-            event.getPlayer().teleport(location);
-            event.getPlayer().sendActionBar("傳送 " + location);
+            player.teleport(location);
+            player.sendActionBar("傳送 " + location);
         } else {
-            event.getPlayer().sendActionBar("傳送失敗: 仍需冷卻 "
+            player.sendActionBar("傳送失敗: 仍需冷卻 "
                     + Utils.getDatetimeDiffInt(new Date(), nextUseDatetime, TimeUnit.SECONDS)
                     + " 秒."
             );
         }
-        event.getPlayer().getInventory().setItemInMainHand(serialize(itemStack));
+        itemStack = serialize(updateLore(itemStack));
+        if (event.getHand().equals(EquipmentSlot.HAND))
+            player.getInventory().setItemInMainHand(itemStack);
+        else if (event.getHand().equals(EquipmentSlot.OFF_HAND))
+            player.getInventory().setItemInOffHand(itemStack);
+        return itemStack;
+    }
+
+    @Override
+    public ItemStack onItemHeld(ItemStack itemStack, PlayerItemHeldEvent event) {
+        itemStack = updateLore(itemStack);
+        event.getPlayer().getInventory().setItem(event.getNewSlot(), itemStack);
+        return itemStack;
     }
 
     @Override

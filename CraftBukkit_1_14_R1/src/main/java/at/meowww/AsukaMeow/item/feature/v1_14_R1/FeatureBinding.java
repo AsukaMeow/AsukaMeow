@@ -19,15 +19,16 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
     }
 
     @Override
-    public void onDrop(ItemStack item, PlayerDropItemEvent event) {
+    public ItemStack onDrop(ItemStack itemStack, PlayerDropItemEvent event) {
         if (type == Type.UNDROPABLE) {
             event.getPlayer().sendActionBar("靈魂綁定的物品不能被丟棄");
             event.setCancelled(true);
         }
+        return itemStack;
     }
 
     @Override
-    public void onInventoryClickSlot(ItemStack item, InventoryClickEvent event) {
+    public ItemStack onInventoryClickSlot(ItemStack itemStack, InventoryClickEvent event) {
         if (type == Type.UNDROPABLE) {
             Event.Result result = Event.Result.ALLOW;
             if (event.isShiftClick())
@@ -37,6 +38,7 @@ public class FeatureBinding extends at.meowww.AsukaMeow.item.feature.FeatureBind
                 result = Event.Result.DENY;
             event.setResult(result);
         }
+        return itemStack;
     }
 
     @Override

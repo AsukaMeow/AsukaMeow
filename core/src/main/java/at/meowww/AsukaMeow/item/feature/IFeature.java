@@ -5,11 +5,11 @@ import org.bukkit.inventory.ItemStack;
 
 public interface IFeature {
 
-    <T extends Event> void trigger(ItemStack itemStack, T event);
+    <T extends Event> ItemStack trigger(ItemStack itemStack, T event);
 
-    <T extends Event> void updateLore (ItemStack item, T event);
+    <T extends Event> ItemStack updateLore (ItemStack item, T event);
 
-    void updateLore (ItemStack item);
+    ItemStack updateLore (ItemStack itemStack);
 
     ItemStack update(ItemStack itemStack);
 
