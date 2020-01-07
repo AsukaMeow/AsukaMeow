@@ -3,6 +3,7 @@ package at.meowww.AsukaMeow.nms.v1_14_R1;
 import at.meowww.AsukaMeow.item.feature.IFeature;
 import at.meowww.AsukaMeow.item.feature.v1_14_R1.FeatureBinding;
 import at.meowww.AsukaMeow.item.feature.v1_14_R1.FeatureTeleport;
+import at.meowww.AsukaMeow.item.feature.v1_14_R1.FeatureTime;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.server.v1_14_R1.NBTTagCompound;
@@ -30,6 +31,8 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
             itemStack = new FeatureTeleport().deserialize(itemStack).trigger(itemStack, event);
         if (featureCom.hasKey(FeatureBinding.lowerName))
             itemStack = new FeatureBinding().deserialize(itemStack).trigger(itemStack, event);
+        if (featureCom.hasKey(FeatureTime.lowerName))
+            itemStack = new FeatureTime().deserialize(itemStack).trigger(itemStack, event);
     }
 
     @Override
@@ -42,6 +45,8 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
                 itemStack = new FeatureTeleport().deserialize(itemStack).resetLore(itemStack);
             if (featureCom.hasKey(FeatureBinding.lowerName))
                 itemStack = new FeatureBinding().deserialize(itemStack).resetLore(itemStack);
+            if (featureCom.hasKey(FeatureTime.lowerName))
+                itemStack = new FeatureTime().deserialize(itemStack).resetLore(itemStack);
         }
         return itemStack;
     }
@@ -54,6 +59,8 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
                 return FeatureTeleport.deserialize(jsonObj);
             case FeatureBinding.name:
                 return FeatureBinding.deserialize(jsonObj);
+            case FeatureTime.name:
+                return FeatureTime.deserialize(jsonObj);
         }
         return null;
     }
@@ -67,6 +74,8 @@ public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
             return new FeatureTeleport().deserialize(itemStack);
         else if (featureName.equalsIgnoreCase(FeatureBinding.lowerName) && featureCom.hasKey(FeatureBinding.lowerName))
             return new FeatureBinding().deserialize(itemStack);
+        else if (featureName.equalsIgnoreCase(FeatureTime.lowerName) && featureCom.hasKey(FeatureTime.lowerName))
+            return new FeatureTime().deserialize(itemStack);
         return null;
     }
 

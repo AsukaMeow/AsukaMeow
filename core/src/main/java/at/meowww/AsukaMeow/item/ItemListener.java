@@ -2,13 +2,16 @@ package at.meowww.AsukaMeow.item;
 
 import at.meowww.AsukaMeow.AsukaMeow;
 import at.meowww.AsukaMeow.item.feature.FeatureBinding;
+import at.meowww.AsukaMeow.item.feature.FeatureTime;
 import at.meowww.AsukaMeow.item.feature.IFeature;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -96,6 +99,25 @@ public class ItemListener implements Listener {
             sendSingleToFeature(event.getCurrentItem(), event);
         } else {
             sendSingleToFeature(event.getCursor(), event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInventoryOpen(InventoryOpenEvent event) {
+        if (!(event.getPlayer() instanceof Player))
+            return;
+
+        Player player = (Player) event.getPlayer();
+        ItemStack[] stacks = player.getInventory().getContents();
+        for (int i = 0; i< stacks.length; ++i) {
+            if (AsukaMeow.INSTANCE.getNMSManager().getFeatureFactory().hasFeature(stacks[i])) {
+                IFeature feat = AsukaMeow.INSTANCE
+                        .getNMSManager()
+                        .getFeatureFactory()
+                        .manualDeserialize(FeatureTime.name, stacks[i]);
+                if (feat != null)
+                    ((FeatureTime) feat).examineReplace(player, i);
+            }
         }
     }
 
