@@ -47,7 +47,7 @@ public class FeatureTime extends at.meowww.AsukaMeow.item.feature.FeatureTime {
 
     @Override
     public ItemStack onInteract(ItemStack itemStack, PlayerInteractEvent event) {
-        itemStack = updateLore(itemStack);
+        itemStack = examineReplace(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
         if (event.getHand().equals(EquipmentSlot.HAND))
             event.getPlayer().getInventory().setItemInMainHand(itemStack);
         else if (event.getHand().equals(EquipmentSlot.OFF_HAND))

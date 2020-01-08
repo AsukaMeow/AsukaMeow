@@ -9,6 +9,8 @@ import at.meowww.AsukaMeow.item.command.ItemCommandExecutor;
 import at.meowww.AsukaMeow.nms.NMSManager;
 import at.meowww.AsukaMeow.system.SystemManager;
 import at.meowww.AsukaMeow.system.command.SystemCommandExecutor;
+import at.meowww.AsukaMeow.territory.TerritoryManager;
+import at.meowww.AsukaMeow.territory.command.TerritoryCommandExecutor;
 import at.meowww.AsukaMeow.user.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -34,11 +36,13 @@ public class AsukaMeow extends JavaPlugin {
     private NMSManager nmsManager;
     private UserManager userManager;
     private DialogManager dialogManager;
+    private TerritoryManager territoryManager;
     private ItemManager itemManager;
     private SystemManager systemManager;
     private World defaultWorld;
 
     DialogCommandExecutor dialogCommandExecutor;
+    TerritoryCommandExecutor territoryCommandExecutor;
     ItemCommandExecutor itemCommandExecutor;
     SystemCommandExecutor systemCommandExecutor;
 
@@ -56,6 +60,7 @@ public class AsukaMeow extends JavaPlugin {
         nmsManager = new NMSManager();
         dialogManager = new DialogManager();
         userManager = new UserManager();
+        territoryManager = new TerritoryManager();
         itemManager = new ItemManager();
         systemManager = new SystemManager();
 
@@ -64,7 +69,9 @@ public class AsukaMeow extends JavaPlugin {
         logger.info("ConfigManager loaded!");
 
         databaseManager.databaseInit(
-                userManager, dialogManager, itemManager, systemManager);
+                userManager, dialogManager, territoryManager, itemManager,
+                systemManager
+        );
         logger.info("DatabaseManager loaded!");
 
         // Load
@@ -72,6 +79,7 @@ public class AsukaMeow extends JavaPlugin {
 
         userManager.portOldPlayer();
         dialogManager.loadDialogs();
+        territoryManager.loadTerritories();
         itemManager.loadItems();
         systemManager.load();
 
@@ -80,15 +88,19 @@ public class AsukaMeow extends JavaPlugin {
         logger.info("UserManager loaded!");
         dialogManager.registerListener();
         logger.info("DialogManager loaded!");
+        territoryManager.registerListener();
+        logger.info("TerritoryManager loaded!");
         itemManager.registerListener();
         logger.info("ItemManager loaded!");
 
         // CommandExecutors
         dialogCommandExecutor = new DialogCommandExecutor(this, dialogManager);
+        territoryCommandExecutor = new TerritoryCommandExecutor(this, territoryManager);
         itemCommandExecutor = new ItemCommandExecutor(this, itemManager);
         systemCommandExecutor = new SystemCommandExecutor(this, systemManager);
         // Executor init
         dialogCommandExecutor.setExecutor();
+        territoryCommandExecutor.setExecutor();
         itemCommandExecutor.setExecutor();
         systemCommandExecutor.setExecutor();
     }
@@ -110,12 +122,20 @@ public class AsukaMeow extends JavaPlugin {
         return this.nmsManager;
     }
 
+    public TerritoryManager getTerritoryManager () {
+        return this.territoryManager;
+    }
+
     public ItemManager getItemManager () {
         return this.itemManager;
     }
 
     public DialogManager getDialogManager () {
         return this.dialogManager;
+    }
+
+    public UserManager getUserManager () {
+        return this.userManager;
     }
 
     public SystemManager getSystemManager () {

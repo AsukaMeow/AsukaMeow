@@ -24,6 +24,7 @@ public class User {
 
     private Location lastLogoutLoc;
     private UserInventory userInventory;
+    private String currentTerritoryId;
 
     public User(
             UUID uuid,
@@ -52,6 +53,7 @@ public class User {
 
         this.lastLogoutLoc = lastLogoutLoc;
         this.userInventory = userInventory;
+        this.currentTerritoryId = "";
     }
 
     public static User newUser (Player player) {
@@ -167,7 +169,16 @@ public class User {
         return this.userInventory;
     }
 
+    public String getCurrentTerritoryId () {
+        return this.currentTerritoryId;
+    }
+
     public void setUserInventory (UserInventory userInventory) {
         this.userInventory = userInventory;
     }
+
+    public void setCurrentTerritoryId (String territoryId) {
+        this.currentTerritoryId = territoryId;
+    }
+
 }

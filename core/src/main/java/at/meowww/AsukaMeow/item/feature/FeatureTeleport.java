@@ -17,13 +17,15 @@ public abstract class FeatureTeleport implements IFeature {
 
     public static final String name ="TELEPORT";
     public static final String lowerName = name.toLowerCase();
+    protected String territoryId;
     protected Location location;
     protected int cooldown;
     protected Date nextUseDatetime;
 
     public FeatureTeleport () {}
 
-    public FeatureTeleport(Location location, int cooldown, Date nextUseDatetime) {
+    public FeatureTeleport(String territoryId, Location location, int cooldown, Date nextUseDatetime) {
+        this.territoryId = territoryId;
         this.location = location;
         this.cooldown = cooldown;
         this.nextUseDatetime = nextUseDatetime;
@@ -79,9 +81,8 @@ public abstract class FeatureTeleport implements IFeature {
         return itemStack;
     }
 
-    @Override
     public int hashCode() {
-        return Objects.hash(location, cooldown);
+        return Objects.hash(territoryId, location, cooldown);
     }
 
     public static JsonObject serialize(IFeature feat) {
@@ -90,12 +91,16 @@ public abstract class FeatureTeleport implements IFeature {
         jsonObj.addProperty("name", FeatureTeleport.name);
 
         JsonObject locObj = new JsonObject();
-        locObj.addProperty("world", feature.location.getWorld().getName());
-        locObj.addProperty("x", feature.location.getX());
-        locObj.addProperty("y", feature.location.getY());
-        locObj.addProperty("z", feature.location.getZ());
-        locObj.addProperty("yaw", feature.location.getYaw());
-        locObj.addProperty("pitch", feature.location.getPitch());
+        if (feature.territoryId != null) {
+            locObj.addProperty("territory", feature.territoryId);
+        } else {
+            locObj.addProperty("world", feature.location.getWorld().getName());
+            locObj.addProperty("x", feature.location.getX());
+            locObj.addProperty("y", feature.location.getY());
+            locObj.addProperty("z", feature.location.getZ());
+            locObj.addProperty("yaw", feature.location.getYaw());
+            locObj.addProperty("pitch", feature.location.getPitch());
+        }
         jsonObj.add("location", locObj);
 
         jsonObj.addProperty("cooldown", feature.cooldown);
