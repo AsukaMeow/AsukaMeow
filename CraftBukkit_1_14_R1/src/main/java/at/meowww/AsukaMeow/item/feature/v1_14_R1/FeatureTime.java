@@ -3,6 +3,7 @@ package at.meowww.AsukaMeow.item.feature.v1_14_R1;
 import at.meowww.AsukaMeow.AsukaMeow;
 import com.google.gson.JsonObject;
 import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -31,6 +32,8 @@ public class FeatureTime extends at.meowww.AsukaMeow.item.feature.FeatureTime {
                 finalStack = AsukaMeow.INSTANCE.getNMSManager().getItemFactory().toItemStack(
                         AsukaMeow.INSTANCE.getItemManager().getAsukaItem(targetAsukaItem)
                 );
+            else
+                finalStack = new ItemStack(Material.AIR);
         } else
             updateLore(finalStack);
         player.getInventory().setItem(slotIndex, finalStack);
@@ -59,16 +62,22 @@ public class FeatureTime extends at.meowww.AsukaMeow.item.feature.FeatureTime {
         NBTTagCompound timeCom = nmsStack.getTag()
                 .getCompound("feature")
                 .getCompound(FeatureTime.lowerName);
+        timeCom.setLong("due_datetime", dueDatetime.getTime());
+        timeCom.remove("target_item_stack");
+        timeCom.remove("target_asuka_item");
 
         if (targetItemStack != null)
             timeCom.setString(
                     "target_item_stack",
                     AsukaMeow.INSTANCE
                             .getNMSManager()
-                            .getItemFactory().serialize(targetItemStack));
+                            .getItemFactory()
+                            .serialize(targetItemStack)
+                            // Minecraft can not process structured string,
+                            // need to replace with \" to \\\" manually. Suck Minecraft!
+                            .replaceAll("\"", "\\\""));
         if (targetAsukaItem != null)
             timeCom.setString("target_asuka_item", targetAsukaItem.toString());
-        timeCom.setLong("due_datetime", dueDatetime.getTime());
 
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
@@ -77,6 +86,8 @@ public class FeatureTime extends at.meowww.AsukaMeow.item.feature.FeatureTime {
     public ItemStack serialize(ItemStack itemStack) {
         NBTTagCompound timeCom = new NBTTagCompound();
         timeCom.setLong("due_datetime", dueDatetime.getTime());
+        timeCom.remove("target_item_stack");
+        timeCom.remove("target_asuka_item");
 
         if (targetItemStack != null)
             timeCom.setString(
@@ -84,7 +95,10 @@ public class FeatureTime extends at.meowww.AsukaMeow.item.feature.FeatureTime {
                     AsukaMeow.INSTANCE
                             .getNMSManager()
                             .getItemFactory()
-                            .serialize(targetItemStack));
+                            .serialize(targetItemStack)
+                            // Minecraft can not process structured string,
+                            // need to replace with \" to \\\" manually. Suck Minecraft!
+                            .replaceAll("\"", "\\\""));
         if (targetAsukaItem != null)
             timeCom.setString("target_asuka_item", targetAsukaItem.toString());
 
@@ -105,16 +119,20 @@ public class FeatureTime extends at.meowww.AsukaMeow.item.feature.FeatureTime {
         NBTTagCompound featureCom = nmsStack.getTag().getCompound("feature");
         NBTTagCompound timeCom = featureCom.getCompound(FeatureTime.lowerName);
 
+        ItemStack targetItemStack = null;
+        NamespacedKey targetAsukaItem = null;
         if (timeCom.hasKey("target_item_stack"))
-            this.targetItemStack = AsukaMeow.INSTANCE
+            targetItemStack = AsukaMeow.INSTANCE
                     .getNMSManager()
                     .getItemFactory()
-                    .deserialize(timeCom.getString("target_time_stack"));
+                    .deserialize(timeCom.getString("target_item_stack"));
         if (timeCom.hasKey("target_asuka_item")) {
             String[] keys = timeCom.getString("target_asuka_item").split(":");
-            this.targetAsukaItem = new NamespacedKey(keys[0], keys[1]);
+            targetAsukaItem = new NamespacedKey(keys[0], keys[1]);
         }
 
+        this.targetItemStack = targetItemStack;
+        this.targetAsukaItem = targetAsukaItem;
         this.dueDatetime = new Date(timeCom.getLong("due_datetime"));
         return this;
     }

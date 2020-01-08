@@ -60,14 +60,14 @@ public abstract class FeatureTime implements IFeature {
                     new Date(), dueDatetime, TimeUnit.SECONDS)
                     + "秒後會轉化";
             if (targetItemStack != null)
-                leftString += "為" + targetItemStack.getItemMeta().getDisplayName();
+                leftString += "為 [" + targetItemStack.getI18NDisplayName() + "]";
             else if (targetAsukaItem != null)
-                leftString += "為" + AsukaMeow.INSTANCE
+                leftString += "為 [" + AsukaMeow.INSTANCE
                         .getItemManager()
                         .getAsukaItem(targetAsukaItem)
                         .getItemStack()
                         .getItemMeta()
-                        .getDisplayName();
+                        .getDisplayName() + "]";
             else
                 leftString += "消失";
 

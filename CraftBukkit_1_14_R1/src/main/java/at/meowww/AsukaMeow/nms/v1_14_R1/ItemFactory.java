@@ -44,6 +44,7 @@ public class ItemFactory extends at.meowww.AsukaMeow.nms.ItemFactory {
                     net.minecraft.server.v1_14_R1.ItemStack.a(nbt);
             return CraftItemStack.asBukkitCopy(stack);
         } catch (CommandSyntaxException cse) {
+            AsukaMeow.INSTANCE.getLogger().warning(cse.getMessage());
             return null;
         }
     }
