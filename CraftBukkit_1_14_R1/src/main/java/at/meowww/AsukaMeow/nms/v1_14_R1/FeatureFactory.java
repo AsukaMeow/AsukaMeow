@@ -11,9 +11,6 @@ import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 public class FeatureFactory extends at.meowww.AsukaMeow.nms.FeatureFactory {
 
     @Override

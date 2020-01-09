@@ -92,6 +92,8 @@ public class AsukaMeow extends JavaPlugin {
         logger.info("TerritoryManager loaded!");
         itemManager.registerListener();
         logger.info("ItemManager loaded!");
+        systemManager.registerListener();
+        logger.info("SystemManager Loaded!");
 
         // CommandExecutors
         dialogCommandExecutor = new DialogCommandExecutor(this, dialogManager);

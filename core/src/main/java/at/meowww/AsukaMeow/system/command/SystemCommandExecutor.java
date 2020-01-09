@@ -40,6 +40,8 @@ public class SystemCommandExecutor implements CommandExecutor, TabCompleter {
             return ReloadCommand.onCommand(this, commandSender, command, s, args);
         } else if (args[0].equalsIgnoreCase("save")) {
             return SaveCommand.onCommand(this, commandSender, command, s, args);
+        } else if (args[0].equalsIgnoreCase("entrance")) {
+            return EntranceCommand.onCommand(this, commandSender, command, s, args);
         } else if (args[0].equalsIgnoreCase("announcement")) {
             return AnnouncementCommand.onCommand(this, commandSender, command, s, args);
         } else {
@@ -60,12 +62,15 @@ public class SystemCommandExecutor implements CommandExecutor, TabCompleter {
             case "save":
                 return SaveCommand.onTabComplete(
                         this, commandSender, command, s, args);
+            case "entrance":
+                return EntranceCommand.onTabComplete(
+                        this, commandSender, command, s, args);
             case "announcement":
                 return AnnouncementCommand.onTabComplete(
                         this, commandSender, command, s, args);
             default:
                 return Arrays.asList(new String[] {
-                        "reload", "save", "announcement",
+                        "reload", "save", "entrance", "announcement",
                 });
         }
     }

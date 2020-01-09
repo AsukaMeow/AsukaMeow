@@ -5,25 +5,32 @@ main: ${main}
 commands:
   asuka-dialog:
     description: Controll the AsukaMeow's dialogs.
+    default: op
     usage: |
       /asuka-dialog reload
       /asuka-dialog list
       /asuka-dialog open [UUID]
   asuka-territory:
     description: Controll the AsukaMeow's territories.
+    default: op
     usage: |
       /asuka-territory reload
       /asuka-territory list
   asuka-item:
     description: Controll the AsukaMeow's items.
+    default: op
     usage: |
       /asuka-item reload
       /asuka-item give [item_id]
   asuka-system:
     description: Controll the AsukaMeow's systems.
+    default: op
     usage: |
       /asuka-system reload
       /asuka-system save
+      /asuka-system entrance info
+      /asuka-system entrance set-allow
+      /asuka-system entrance set-disallow-msg [msg]
       /asuka-system announcement info
       /asuka-system announcement set-dialog [UUID]
       /asuka-system announcement set-date [start_date] [end_date]
