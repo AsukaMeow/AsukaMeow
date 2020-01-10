@@ -9,6 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -44,6 +45,9 @@ public class ItemListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemInteract(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.PHYSICAL))
+            return;
+        
         if(event.getHand().equals(EquipmentSlot.HAND))
             sendSingleToFeature(event.getPlayer().getInventory().getItemInMainHand(), event);
         else if(event.getHand().equals(EquipmentSlot.OFF_HAND))
