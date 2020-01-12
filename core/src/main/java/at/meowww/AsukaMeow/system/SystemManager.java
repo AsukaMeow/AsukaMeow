@@ -8,9 +8,6 @@ import com.mongodb.client.model.ReplaceOptions;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 
-import java.util.Date;
-import java.util.UUID;
-
 public class SystemManager implements IMongoStorable {
 
     private SystemListener listener;

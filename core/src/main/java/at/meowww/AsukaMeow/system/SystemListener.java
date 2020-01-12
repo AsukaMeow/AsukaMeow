@@ -6,13 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
@@ -46,11 +44,10 @@ public class SystemListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEnchant(EnchantItemEvent event) {
-        if (!manager.isCanEnchant())
-            event.getEnchantsToAdd().clear();
-        else
-            if (!Utils.isChanceTriggered(manager.getEnchantSuccessChance())) {
-                event.getEnchantsToAdd().clear();
+        Bukkit.getScheduler().runTaskLater(AsukaMeow.INSTANCE, () -> {
+            if (!manager.isCanEnchant() || !Utils.isChanceTriggered(manager.getEnchantSuccessChance())) {
+                event.getEnchantsToAdd().forEach(((enchantment, integer) ->
+                        event.getItem().removeEnchantment(enchantment)));
                 if (manager.isAnnounceEnchantFail()) {
                     String failMessage = "玩家["
                             + event.getEnchanter().getDisplayName() + "]在嘗試附魔道具["
@@ -61,6 +58,7 @@ public class SystemListener implements Listener {
                     Bukkit.getOnlinePlayers().forEach(player -> player.sendActionBar(failMessage));
                 }
             }
+        }, 1L);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
