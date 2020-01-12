@@ -85,6 +85,7 @@ public class Announcement {
                                 .append("end_date", endDate)
                         ),
                 new ReplaceOptions().upsert(true));
+        AsukaMeow.INSTANCE.getLogger().info("System Announcement Loaded");
     }
 
 }

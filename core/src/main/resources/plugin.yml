@@ -26,8 +26,13 @@ commands:
     description: Controll the AsukaMeow's systems.
     default: op
     usage: |
+      /asuka-system info
       /asuka-system reload
       /asuka-system save
+      /asuka-system set-can-breed
+      /asuka-system set-can-enchant
+      /asuka-system set-announce-enchant-fail
+      /asuka-system set-enchant-success-chance [float]
       /asuka-system entrance info
       /asuka-system entrance set-allow
       /asuka-system entrance set-disallow-msg [msg]

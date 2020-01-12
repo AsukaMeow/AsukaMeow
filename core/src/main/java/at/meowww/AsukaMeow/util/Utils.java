@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
@@ -56,6 +57,11 @@ public class Utils {
 
     public static String dateToString (Date date) {
         return dt.format(date);
+    }
+
+    public static boolean isChanceTriggered (double triggerChance) {
+        return (new Random(new Date().getTime())
+                .nextInt(0 + 10000 + 1)) / 100 <= triggerChance;
     }
 
 }

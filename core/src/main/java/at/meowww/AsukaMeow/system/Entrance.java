@@ -53,6 +53,7 @@ public class Entrance {
                                         .append("disallow-msg", disallowMsg)
                         ),
                 new ReplaceOptions().upsert(true));
+        AsukaMeow.INSTANCE.getLogger().info("System Entrance Loaded");
     }
 
 }
